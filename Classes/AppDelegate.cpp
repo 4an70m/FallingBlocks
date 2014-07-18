@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
+#include "SplashScreen.h"
 
 USING_NS_CC;
 
@@ -26,8 +26,50 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0 / 60);
 
+    auto fileUtils = FileUtils::getInstance();
+        auto screenSize = glview->getFrameSize();
+        std::vector<std::string> resDirOrders;
+
+        CCLog("Visible size = height:%f; width:%f", screenSize.height, screenSize.width);
+
+        //check which asset device requires
+
+        if (1920 == screenSize.width || 1920 == screenSize.height)
+        {
+        	resDirOrders.push_back("Images/1080");
+
+        	glview->setDesignResolutionSize(1080,1920,ResolutionPolicy::NO_BORDER);
+        }
+        else if (1280 == screenSize.width || 1280 == screenSize.height)
+        	    {
+        			resDirOrders.push_back("Images/720");
+
+        	    	glview->setDesignResolutionSize(800,1280,ResolutionPolicy::NO_BORDER);
+        	    }
+        else if (960 == screenSize.width || 960 == screenSize.height)
+        {
+        	resDirOrders.push_back("Images/960");
+
+        	glview->setDesignResolutionSize(540,960,ResolutionPolicy::NO_BORDER);
+        }
+        else if (800 == screenSize.width || 800 == screenSize.height)
+                {
+                	resDirOrders.push_back("Images/800");
+
+                	glview->setDesignResolutionSize(480,800,ResolutionPolicy::NO_BORDER);
+                }
+        else
+        {
+        	resDirOrders.push_back("Images/800");
+
+    		glview->setDesignResolutionSize(320,480,ResolutionPolicy::NO_BORDER);
+        }
+
+        fileUtils->setSearchPaths(resDirOrders);
+
+
     // create a scene. it's an autorelease object
-    auto scene = HelloWorld::createScene();
+    auto scene = SplashScreen::createScene();
 
     // run
     director->runWithScene(scene);
