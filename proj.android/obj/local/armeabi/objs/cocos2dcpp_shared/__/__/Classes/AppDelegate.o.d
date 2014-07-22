@@ -313,7 +313,7 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/AppDelegate.o: \
  jni/../../cocos2d/cocos/./deprecated/CCString.h \
  jni/../../cocos2d/cocos/./deprecated/CCNotificationCenter.h \
  jni/../../cocos2d/cocos/./deprecated/CCDeprecated.h \
- jni/../../Classes/SplashScreen.h
+ jni/../../Classes/Scenes/SplashScreen.h jni/../../Classes/Defenitions.h
 
 jni/../../Classes/AppDelegate.h:
 
@@ -943,4 +943,6 @@ jni/../../cocos2d/cocos/./deprecated/CCNotificationCenter.h:
 
 jni/../../cocos2d/cocos/./deprecated/CCDeprecated.h:
 
-jni/../../Classes/SplashScreen.h:
+jni/../../Classes/Scenes/SplashScreen.h:
+
+jni/../../Classes/Defenitions.h:

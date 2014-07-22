@@ -313,6 +313,9 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/GameScreen.o: \
  jni/../../cocos2d/cocos/./deprecated/CCString.h \
  jni/../../cocos2d/cocos/./deprecated/CCNotificationCenter.h \
  jni/../../cocos2d/cocos/./deprecated/CCDeprecated.h \
+ jni/../../Classes/MainMenuScreen.h jni/../../Classes/PauseOverlay.h \
+ jni/../../Classes/Defenitions.h jni/../../Classes/CollisionManager.h \
+ jni/../../Classes/BotoSprite.h jni/../../Classes/Blocks.h \
  jni/../../cocos2d/extensions/../extensions/cocos-ext.h \
  jni/../../cocos2d/extensions/../extensions/ExtensionMacros.h \
  jni/../../cocos2d/extensions/../extensions/GUI/CCControlExtension/CCControlExtensions.h \
@@ -343,7 +346,6 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/GameScreen.o: \
  jni/../../cocos2d/cocos/./2d/CCDrawNode.h \
  jni/../../cocos2d/extensions/../extensions/physics-nodes/CCPhysicsSprite.h \
  jni/../../cocos2d/extensions/../extensions/assets-manager/AssetsManager.h \
- jni/../../Classes/GameOverScreen.h jni/../../Classes/PauseScreen.h \
  jni/../../cocos2d/cocos/./editor-support/cocostudio/cocostudio.h \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCActionFrame.h \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCActionFrameEasing.h \
@@ -1029,6 +1031,18 @@ jni/../../cocos2d/cocos/./deprecated/CCNotificationCenter.h:
 
 jni/../../cocos2d/cocos/./deprecated/CCDeprecated.h:
 
+jni/../../Classes/MainMenuScreen.h:
+
+jni/../../Classes/PauseOverlay.h:
+
+jni/../../Classes/Defenitions.h:
+
+jni/../../Classes/CollisionManager.h:
+
+jni/../../Classes/BotoSprite.h:
+
+jni/../../Classes/Blocks.h:
+
 jni/../../cocos2d/extensions/../extensions/cocos-ext.h:
 
 jni/../../cocos2d/extensions/../extensions/ExtensionMacros.h:
@@ -1088,10 +1102,6 @@ jni/../../cocos2d/cocos/./2d/CCDrawNode.h:
 jni/../../cocos2d/extensions/../extensions/physics-nodes/CCPhysicsSprite.h:
 
 jni/../../cocos2d/extensions/../extensions/assets-manager/AssetsManager.h:
-
-jni/../../Classes/GameOverScreen.h:
-
-jni/../../Classes/PauseScreen.h:
 
 jni/../../cocos2d/cocos/./editor-support/cocostudio/cocostudio.h:
 

@@ -4,6 +4,7 @@
 #define SPLASH_SCREEN_APPEAR_TIME 1.0f
 
 #include "cocos2d.h"
+#include "Defenitions.h"
 
 class SplashScreen : public cocos2d::Layer
 {
@@ -21,7 +22,24 @@ public:
     CREATE_FUNC(SplashScreen);
 
     // function for replacing splashscreen
-    void ToMainMenu(float dt);
+    void ToMainMenu(Ref *pSender);
+
+    void FinishSplashScreen(float dt);
+
+    bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
+
+
+private:
+    //sprites for cover pages
+    cocos2d::Sprite *cover1;
+    cocos2d::Sprite *cover2;
+    cocos2d::Sprite *cover3;
+    //and for splash screen
+    cocos2d::Sprite *splashScreen;
+    cocos2d::Menu *menu;
+    cocos2d::Size visibleSize;
+    cocos2d::Vec2 origin;
+    int visibleCover;
 };
 
 #endif // __SPLASH_SCREEN_H__

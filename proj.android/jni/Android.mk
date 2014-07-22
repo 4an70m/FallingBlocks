@@ -12,12 +12,15 @@ LOCAL_MODULE_FILENAME := libcocos2dcpp
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
-                   ../../Classes/SplashScreen.cpp \
-				   ../../Classes/MainMenuScreen.cpp \
-				   ../../Classes/GameScreen.cpp \
-				   ../../Classes/HighscoresScreen.cpp \
-				   ../../Classes/PauseScreen.cpp \
-				   ../../Classes/GameOverScreen.cpp
+                   ../../Classes/Scenes/SplashScreen.cpp \
+				   ../../Classes/Scenes/MainMenuScreen.cpp \
+				   ../../Classes/Scenes/GameScreen.cpp \
+				   ../../Classes/Scenes/HighscoresScreen.cpp \
+				   ../../Classes/BotoSprite.cpp \
+				   ../../Classes/CollisionManager.cpp \
+				   ../../Classes/Scenes/PauseOverlay.cpp \
+				   ../../Classes/Blocks.cpp
+				   
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

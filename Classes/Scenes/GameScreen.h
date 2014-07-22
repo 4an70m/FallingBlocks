@@ -3,7 +3,14 @@
 #define TRANSITION_TIME 1.0f
 
 #include "cocos2d.h"
+#include "MainMenuScreen.h"
+#include "PauseOverlay.h"
+#include "Defenitions.h"
+#include "CollisionManager.h"
+#include "BotoSprite.h"
+#include "Blocks.h"
 #include "extensions/cocos-ext.h"
+#include "editor-support/cocostudio/cocostudio.h"
 
 class GameScreen : public cocos2d::Layer
 {
@@ -41,7 +48,7 @@ public:
     void PressJumpButton(cocos2d::Object *sender, cocos2d::extension::Control::EventType controlEvent);
     void ReleaseJumpButton(cocos2d::Object *sender, cocos2d::extension::Control::EventType controlEvent);
 private:
-    cocos2d::Sprite *spriteTetBoy;
+    BotoSprite *botoSprite;
     cocos2d::CCSprite *leftButton;
     cocos2d::CCSprite *rightButton;
     cocos2d::CCSprite *jumpButton;
@@ -50,11 +57,6 @@ private:
     cocos2d::Size visibleSize;
     int points;
     cocos2d::CCLabelTTF* ttf1;
-    bool moveLeft;
-    bool moveRight;
-    bool moveJump;
-
-
 };
 
 #endif // __GAME_SCREEN_H__

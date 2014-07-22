@@ -1,5 +1,4 @@
 #include "AppDelegate.h"
-#include "SplashScreen.h"
 
 USING_NS_CC;
 
