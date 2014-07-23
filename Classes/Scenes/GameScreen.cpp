@@ -118,7 +118,7 @@ bool GameScreen::init()
 
 	this->scheduleUpdate();
 
-	this->schedule(schedule_selector(GameScreen::generateBox), 1.0f);
+	this->schedule(schedule_selector(GameScreen::generateBox), BLOCK_GENERATION_TIME);
 
     return true;
 }

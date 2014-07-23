@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Defenitions.h"
+#include "MyBodyParser.h"
 
 class Blocks
 {
@@ -28,9 +29,6 @@ public:
 	//get current block's sprite
 	cocos2d::Sprite *getSprite();
 
-	//create new block
-	static Blocks *createBlock();
-
 	//generate single block
 	void DrawBlock(cocos2d::Layer *layer);
 
@@ -51,6 +49,7 @@ private:
 	BlockType blockType;
 	//random generator
 	static float RandomFloatBetween(float smallNumber, float bigNumber);
+	static int RandomIntBetween(int smallNumber, int bigNumber);
 };
 
 #endif // __BLOCKS_H__

@@ -19,6 +19,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 				   ../../Classes/BotoSprite.cpp \
 				   ../../Classes/CollisionManager.cpp \
 				   ../../Classes/Scenes/PauseOverlay.cpp \
+				   ../../Classes/MyBodyParser.cpp \
 				   ../../Classes/Blocks.cpp
 				   
 

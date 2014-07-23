@@ -318,6 +318,15 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/Scenes/MainMenuScreen.o: 
  jni/../../Classes/Scenes/PauseOverlay.h jni/../../Classes/Defenitions.h \
  jni/../../Classes/CollisionManager.h jni/../../Classes/BotoSprite.h \
  jni/../../Classes/Defenitions.h jni/../../Classes/Blocks.h \
+ jni/../../Classes/MyBodyParser.h \
+ jni/../../cocos2d/external/Box2D/../json/document.h \
+ jni/../../cocos2d/external/Box2D/../json/reader.h \
+ jni/../../cocos2d/external/Box2D/../json/rapidjson.h \
+ D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/cstring \
+ jni/../../cocos2d/external/Box2D/../json/internal/pow10.h \
+ jni/../../cocos2d/external/Box2D/../json/internal/stack.h \
+ D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/csetjmp \
+ jni/../../cocos2d/external/Box2D/../json/internal/strfunc.h \
  jni/../../cocos2d/extensions/../extensions/cocos-ext.h \
  jni/../../cocos2d/extensions/../extensions/ExtensionMacros.h \
  jni/../../cocos2d/extensions/../extensions/GUI/CCControlExtension/CCControlExtensions.h \
@@ -355,14 +364,6 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/Scenes/MainMenuScreen.o: 
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCActionObject.h \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCActionNode.h \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/DictionaryHelper.h \
- jni/../../cocos2d/external/Box2D/../json/document.h \
- jni/../../cocos2d/external/Box2D/../json/reader.h \
- jni/../../cocos2d/external/Box2D/../json/rapidjson.h \
- D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/cstring \
- jni/../../cocos2d/external/Box2D/../json/internal/pow10.h \
- jni/../../cocos2d/external/Box2D/../json/internal/stack.h \
- D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/csetjmp \
- jni/../../cocos2d/external/Box2D/../json/internal/strfunc.h \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmature.h \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureDefine.h \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCBone.h \
@@ -1048,6 +1049,24 @@ jni/../../Classes/Defenitions.h:
 
 jni/../../Classes/Blocks.h:
 
+jni/../../Classes/MyBodyParser.h:
+
+jni/../../cocos2d/external/Box2D/../json/document.h:
+
+jni/../../cocos2d/external/Box2D/../json/reader.h:
+
+jni/../../cocos2d/external/Box2D/../json/rapidjson.h:
+
+D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/cstring:
+
+jni/../../cocos2d/external/Box2D/../json/internal/pow10.h:
+
+jni/../../cocos2d/external/Box2D/../json/internal/stack.h:
+
+D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/csetjmp:
+
+jni/../../cocos2d/external/Box2D/../json/internal/strfunc.h:
+
 jni/../../cocos2d/extensions/../extensions/cocos-ext.h:
 
 jni/../../cocos2d/extensions/../extensions/ExtensionMacros.h:
@@ -1121,22 +1140,6 @@ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCActionObject.h
 jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCActionNode.h:
 
 jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/DictionaryHelper.h:
-
-jni/../../cocos2d/external/Box2D/../json/document.h:
-
-jni/../../cocos2d/external/Box2D/../json/reader.h:
-
-jni/../../cocos2d/external/Box2D/../json/rapidjson.h:
-
-D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/cstring:
-
-jni/../../cocos2d/external/Box2D/../json/internal/pow10.h:
-
-jni/../../cocos2d/external/Box2D/../json/internal/stack.h:
-
-D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/csetjmp:
-
-jni/../../cocos2d/external/Box2D/../json/internal/strfunc.h:
 
 jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmature.h:
 
