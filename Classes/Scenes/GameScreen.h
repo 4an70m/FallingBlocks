@@ -53,7 +53,6 @@ private:
     cocos2d::CCSprite *rightButton;
     cocos2d::CCSprite *jumpButton;
     cocos2d::PhysicsWorld* m_world;
-    float direction = 0.0f;
     cocos2d::Size visibleSize;
     int points;
     cocos2d::CCLabelTTF* ttf1;

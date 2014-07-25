@@ -315,7 +315,16 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/Scenes/SplashScreen.o: \
  jni/../../cocos2d/cocos/./deprecated/CCNotificationCenter.h \
  jni/../../cocos2d/cocos/./deprecated/CCDeprecated.h \
  jni/../../Classes/Defenitions.h \
- jni/../../Classes/Scenes/MainMenuScreen.h
+ jni/../../Classes/Scenes/MainMenuScreen.h jni/../../Classes/Blocks.h \
+ jni/../../Classes/Defenitions.h jni/../../Classes/MyBodyParser.h \
+ jni/../../cocos2d/external/Box2D/../json/document.h \
+ jni/../../cocos2d/external/Box2D/../json/reader.h \
+ jni/../../cocos2d/external/Box2D/../json/rapidjson.h \
+ D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/cstring \
+ jni/../../cocos2d/external/Box2D/../json/internal/pow10.h \
+ jni/../../cocos2d/external/Box2D/../json/internal/stack.h \
+ D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/csetjmp \
+ jni/../../cocos2d/external/Box2D/../json/internal/strfunc.h
 
 jni/../../Classes/Scenes/SplashScreen.h:
 
@@ -948,3 +957,25 @@ jni/../../cocos2d/cocos/./deprecated/CCDeprecated.h:
 jni/../../Classes/Defenitions.h:
 
 jni/../../Classes/Scenes/MainMenuScreen.h:
+
+jni/../../Classes/Blocks.h:
+
+jni/../../Classes/Defenitions.h:
+
+jni/../../Classes/MyBodyParser.h:
+
+jni/../../cocos2d/external/Box2D/../json/document.h:
+
+jni/../../cocos2d/external/Box2D/../json/reader.h:
+
+jni/../../cocos2d/external/Box2D/../json/rapidjson.h:
+
+D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/cstring:
+
+jni/../../cocos2d/external/Box2D/../json/internal/pow10.h:
+
+jni/../../cocos2d/external/Box2D/../json/internal/stack.h:
+
+D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/csetjmp:
+
+jni/../../cocos2d/external/Box2D/../json/internal/strfunc.h:

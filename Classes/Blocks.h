@@ -36,8 +36,9 @@ public:
 	BlockType PickABlock();
 
 	//functions generates a random point at a constant height
-	static cocos2d::Vec2 GeneratePoint(float width, float height);
-
+	static cocos2d::Vec2 GeneratePoint(float startWidth, float endWidth, float height);
+	//random generator
+	static float RandomFloatBetween(float smallNumber, float bigNumber);
 private:
 
 
@@ -48,7 +49,6 @@ private:
 
 	BlockType blockType;
 	//random generator
-	static float RandomFloatBetween(float smallNumber, float bigNumber);
 	static int RandomIntBetween(int smallNumber, int bigNumber);
 };
 

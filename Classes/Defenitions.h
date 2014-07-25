@@ -6,6 +6,9 @@
 #define COVER_APPEARANCE_SPEED 			0.5f
 #define NUMBER_OF_BLOCKS				8
 #define BLOCK_GENERATION_TIME			1.0f
+#define FALLING_BLOCK_GENERATION_TIME	0.5f
+#define MIN_FALLING_TIME				10.0f
+#define MAX_FALLING_TIME				60.0f
 
 //intro comicses
 #define INTRO_PAGE_1 			"SplashIntro/COVER1.png"
@@ -45,5 +48,11 @@
 
 //json
 #define BRICK_BODIES			"Json/BRICK_BODIES.json"
+
+//animations
+//main menu
+#define BOTO_MM_PLIST 			"Sprites/Animations/MainMenu/MainMenuBoto0.plist"
+#define BOTO_MM_PNG 			"Sprites/Animations/MainMenu/MainMenuBoto0.png"
+#define BOTO_MM_JSON 			"Sprites/Animations/MainMenu/MainMenuBoto.ExportJson"
 
 #endif // __DEFENITIONS_H__

@@ -3,6 +3,8 @@
 #define TO_PLAY_SCENE_TRANSITION_TIME 1.0f
 
 #include "cocos2d.h"
+#include "Defenitions.h"
+#include "Blocks.h"
 
 class MainMenuScreen : public cocos2d::Layer
 {
@@ -21,9 +23,10 @@ public:
 
     //functions of the main menu
     void Play(cocos2d::Ref *pSender);
-    void Highscores(cocos2d::Ref *pSender);
-    void Mute(cocos2d::Ref *pSender);
-    void Exit(cocos2d::Ref *pSender);
+
+    void generateBox(float dt);
+private:
+    cocos2d::Size visibleSize;
 };
 
 #endif // __MAIN_MENU_SCREEN_H__

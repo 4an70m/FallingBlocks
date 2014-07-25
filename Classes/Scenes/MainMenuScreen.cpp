@@ -29,35 +29,31 @@ bool MainMenuScreen::init()
         return false;
     }
     
-    Size visibleSize = Director::getInstance()->getVisibleSize();
+    visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     // add "MainMenuScreen" splash screen"
-    auto sprite = Sprite::create("Backgrounds/main_menu_background.png");
-
-    // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-    // add the sprite as a child to this layer
-    this->addChild(sprite, 0);
-
+    auto background = Sprite::create("Backgrounds/main_menu_background.png");
+    background->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    this->addChild(background, 0);
+    //add background falling blocks
+	this->schedule(schedule_selector(MainMenuScreen::generateBox), FALLING_BLOCK_GENERATION_TIME);
     //main menu items
-    auto menu_item_1 = MenuItemFont::create("Play", CC_CALLBACK_1(MainMenuScreen::Play, this));
-    auto menu_item_2 = MenuItemFont::create("Highscores", CC_CALLBACK_1(MainMenuScreen::Highscores, this));
-    auto menu_item_3 = MenuItemFont::create("Mute", CC_CALLBACK_1(MainMenuScreen::Mute, this));
-    auto menu_item_4 = MenuItemFont::create("Exit", CC_CALLBACK_1(MainMenuScreen::Exit, this));
-
-    // simple main menu
-    menu_item_1->setPosition(Point((visibleSize.width / 4) * 3, (visibleSize.height / 5) * 4));
-    menu_item_2->setPosition(Point((visibleSize.width / 4) * 3, (visibleSize.height / 5) * 3));
-    menu_item_3->setPosition(Point((visibleSize.width / 4) * 3, (visibleSize.height / 5) * 2));
-    menu_item_4->setPosition(Point((visibleSize.width / 4) * 3, (visibleSize.height / 5) * 1));
-
-
-
-    auto *menu = Menu::create(menu_item_1, menu_item_2, menu_item_3, menu_item_4, NULL);
-    menu->setPosition(Point(0, 0));
+    auto menu_item_1 = MenuItemImage::create("UI/MainMenu/button_play.png","UI/MainMenu/button_play_pressed.png", CC_CALLBACK_1(MainMenuScreen::Play, this));
+    //menu_item_1->setPosition(Point(visibleSize.width / 2, visibleSize.height / 2));
+    auto *menu = Menu::create(menu_item_1, NULL);
+    menu->setPosition(Point(visibleSize.width / 2, visibleSize.height / 15));
     this->addChild(menu);
+    //animation of waving Boto
+    cocostudio::CCArmatureDataManager::sharedArmatureDataManager()->addArmatureFileInfo(BOTO_MM_PNG,BOTO_MM_PLIST,BOTO_MM_JSON);
+    cocostudio::CCArmature *armature = cocostudio::CCArmature::create("MainMenuBoto");
+	armature->setPosition(Point(visibleSize.width / 2, visibleSize.height / 16 * 3));
+	armature->getAnimation()->playWithIndex(0);
+	this->addChild(armature, 2);
+	//add ground
+	auto ground = Sprite::create("Backgrounds/ground.png");
+	ground->setPosition(Point(visibleSize.width / 2, visibleSize.height / 16 * 2));
+	this->addChild(ground, 1);
 
     return true;
 }
@@ -72,23 +68,42 @@ void MainMenuScreen::Play(Ref *pSender)
 	Director::getInstance()->replaceScene(TransitionFade::create(TO_PLAY_SCENE_TRANSITION_TIME, scenePlay));
 }
 
-void MainMenuScreen::Highscores(Ref *pSender)
+void MainMenuScreen::generateBox(float dt)
 {
-	auto scenePlay = HighscoresScreen::createScene();
-
-	//transition to highscores scene
-	Director::getInstance()->pushScene(TransitionFade::create(TO_PLAY_SCENE_TRANSITION_TIME, scenePlay));
-}
-
-void MainMenuScreen::Mute(Ref *pSender)
-{
-	//no sound implementatin
-}
-
-void MainMenuScreen::Exit(Ref *pSender)
-{
-	Director::getInstance()->end();
-	exit(0);
+	//generating block
+	Blocks *newBlock = new Blocks(Point(0,0));
+	//positioning block
+	float startWidth = newBlock->getSprite()->getContentSize().width/2;
+	float endWidth =  visibleSize.width - newBlock->getSprite()->getContentSize().width/2;
+	float height = visibleSize.height - newBlock->getSprite()->getContentSize().height/2;
+	Vec2 point = Blocks::GeneratePoint(startWidth, endWidth, height);
+	newBlock->setPosition(point);
+	newBlock->DrawBlock(this);
+	//setting scale and opacity
+	float time =  Blocks::RandomFloatBetween(MIN_FALLING_TIME,MAX_FALLING_TIME);
+	float farScale = 0.3f;
+	float middleScale = 0.5f;
+	float closeScale = 0.7f;
+	if(time < 20.0f)
+	{
+		newBlock->getSprite()->setScale(closeScale);
+		newBlock->getSprite()->setOpacity(225);
+	}
+	if(time >= 20.0f && time < 40.0f)
+	{
+		newBlock->getSprite()->setScale(middleScale);
+		newBlock->getSprite()->setOpacity(178);
+	}
+	if(time >= 40.0f && time <= MAX_FALLING_TIME)
+	{
+		newBlock->getSprite()->setScale(farScale);
+		newBlock->getSprite()->setOpacity(127);
+	}
+	//moving block
+	auto move = MoveTo::create(time, Point(newBlock->getSprite()->getPosition().x, 0));
+	auto remove = RemoveSelf::create(true);
+	auto sequence = Sequence::create(move, remove, NULL);
+	newBlock->getSprite()->runAction(sequence);
 }
 
 void MainMenuScreen::menuCloseCallback(Ref* pSender)

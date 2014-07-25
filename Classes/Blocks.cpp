@@ -62,7 +62,6 @@ Blocks::Blocks(cocos2d::Point point)
 			break;
 		}
 	}
-	CCLog("stage 1");
 	//physiscs activation!!
 	blockBody->setGravityEnable(true);
 	blockBody->setDynamic(true);
@@ -72,7 +71,6 @@ Blocks::Blocks(cocos2d::Point point)
 	blockBody->setMass(0.1f);
 	blockSprite->setPhysicsBody(blockBody);
 	blockSprite->setPosition(point);
-	CCLog("stage 2");
 	//~physics beatch!
 }
 
@@ -112,10 +110,10 @@ Blocks::BlockType Blocks::PickABlock()
 	return BlockType(random);
 }
 
-cocos2d::Vec2 Blocks::GeneratePoint(float width, float height)
+cocos2d::Vec2 Blocks::GeneratePoint(float startWidth, float endWidth, float height)
 {
 	Vec2 point = Vec2::ZERO;
-	point.x = RandomFloatBetween(0, width);
+	point.x = RandomFloatBetween(startWidth, endWidth);
 	point.y = height;
 	return point;
 }

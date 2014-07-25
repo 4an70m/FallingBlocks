@@ -6,7 +6,7 @@ Scene* GameScreen::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::createWithPhysics();
-    scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+    //scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
     scene->getPhysicsWorld()->setGravity(Point(0,-500));
 
     //edge Node
@@ -14,6 +14,7 @@ Scene* GameScreen::createScene()
     auto body = PhysicsBody::createEdgeBox(visibleSize2, PHYSICSBODY_MATERIAL_DEFAULT,10);
 	auto edgeNode = Node::create();
 	edgeNode->setPosition(Point(visibleSize2.width/2,visibleSize2.height/2));
+	edgeNode->setContentSize(Size(visibleSize2.width,visibleSize2.height/2));
 	edgeNode->setPhysicsBody(body);
 	scene->addChild(edgeNode);
 
@@ -50,17 +51,19 @@ bool GameScreen::init()
     //pause button declaration
 	auto menu_item_1 = MenuItemFont::create("Pause", CC_CALLBACK_1(GameScreen::Pause, this));
 	menu_item_1->setPosition(Point((visibleSize.width / 5) * 4, (visibleSize.height * 19 / 20)));
-	char text[256];
-	sprintf(text,"Points: %d", points);
-	ttf1 = CCLabelTTF::create(text, "Helvetica", 40,
-		                                       CCSizeMake(245, 60), kCCTextAlignmentCenter);
-	ttf1->setPosition(Point((visibleSize.width / 5) * 4, (visibleSize.height * 17 / 20)));
-	ttf1->setColor(Color3B(cocos2d::Color3B::WHITE));
-	this->addChild(ttf1);
-
 	auto *menu = Menu::create(menu_item_1, NULL);
 	menu->setPosition(Point(0, 0));
 	this->addChild(menu);
+
+	/*
+	char text[256];
+	sprintf(text,"Points: %d", points);
+	ttf1 = CCLabelTTF::create(text, "Helvetica", 40,
+											   CCSizeMake(245, 60), kCCTextAlignmentCenter);
+	ttf1->setPosition(Point((visibleSize.width / 5) * 4, (visibleSize.height * 17 / 20)));
+	ttf1->setColor(Color3B(cocos2d::Color3B::WHITE));
+	this->addChild(ttf1);
+	*/
 
 	//single touch listener
 	//adding event listener
@@ -79,37 +82,40 @@ bool GameScreen::init()
 */
 
 	//Left button
+	auto sp1 = Sprite::create(LEFT_BUTTON);
 	auto leftButtonPic = cocos2d::extension::Scale9Sprite::create(LEFT_BUTTON);
 	auto leftButtonPicPressed = cocos2d::extension::Scale9Sprite::create(LEFT_BUTTON_PRESSED);
 	cocos2d::extension::ControlButton *leftButton = cocos2d::extension::ControlButton::create(leftButtonPic);
 	leftButton->addTargetWithActionForControlEvents(this, cccontrol_selector(GameScreen::PressLeftButton),cocos2d::extension::Control::EventType::TOUCH_DOWN);
 	leftButton->addTargetWithActionForControlEvents(this, cccontrol_selector(GameScreen::ReleaseLeftButton),cocos2d::extension::Control::EventType::TOUCH_UP_INSIDE);
 	leftButton->setBackgroundSpriteForState(leftButtonPicPressed, cocos2d::extension::ControlButton::State::HIGH_LIGHTED);
-	leftButton->setPosition(Point(100,100));
-	leftButton->setPreferredSize(Size(100,100));
-	this->addChild(leftButton);
+	leftButton->setPosition(Point(visibleSize.width / 8, visibleSize.height / 17));
+	leftButton->setPreferredSize(sp1->getContentSize());
+	this->addChild(leftButton, 2);
 
 	//Right button
+	auto sp2 = Sprite::create(RIGHT_BUTTON);
 	auto rightButtonPic = cocos2d::extension::Scale9Sprite::create(RIGHT_BUTTON);
 	auto rightButtonPicPressed = cocos2d::extension::Scale9Sprite::create(RIGHT_BUTTON_PRESSED);
 	cocos2d::extension::ControlButton *rightButton = cocos2d::extension::ControlButton::create(rightButtonPic);
 	rightButton->addTargetWithActionForControlEvents(this, cccontrol_selector(GameScreen::PressRightButton),cocos2d::extension::Control::EventType::TOUCH_DOWN);
 	rightButton->addTargetWithActionForControlEvents(this, cccontrol_selector(GameScreen::ReleaseRightButton),cocos2d::extension::Control::EventType::TOUCH_UP_INSIDE);
 	rightButton->setBackgroundSpriteForState(rightButtonPicPressed, cocos2d::extension::ControlButton::State::HIGH_LIGHTED);
-	rightButton->setPosition(Point(200,100));
-	rightButton->setPreferredSize(Size(100,100));
-	this->addChild(rightButton);
+	rightButton->setPosition(Point(visibleSize.width / 8 * 2.5f, visibleSize.height / 17));
+	rightButton->setPreferredSize(sp2->getContentSize());
+	this->addChild(rightButton, 2);
 
 	//Jump button
+	auto sp3 = Sprite::create(JUMP_BUTTON);
 	auto jumpButtonPic = cocos2d::extension::Scale9Sprite::create(JUMP_BUTTON);
 	auto jumpButtonPicPressed = cocos2d::extension::Scale9Sprite::create(JUMP_BUTTON_PRESSED);
 	cocos2d::extension::ControlButton *jumpButton = cocos2d::extension::ControlButton::create(jumpButtonPic);
 	jumpButton->addTargetWithActionForControlEvents(this, cccontrol_selector(GameScreen::PressJumpButton),cocos2d::extension::Control::EventType::TOUCH_DOWN);
 	jumpButton->addTargetWithActionForControlEvents(this, cccontrol_selector(GameScreen::ReleaseJumpButton),cocos2d::extension::Control::EventType::TOUCH_UP_INSIDE);
 	jumpButton->setBackgroundSpriteForState(jumpButtonPicPressed, cocos2d::extension::ControlButton::State::HIGH_LIGHTED);
-	jumpButton->setPosition(Point(700,100));
-	jumpButton->setPreferredSize(Size(100,100));
-	this->addChild(jumpButton);
+	jumpButton->setPosition(Point(visibleSize.width / 8 * 7, visibleSize.height / 17));
+	jumpButton->setPreferredSize(sp3->getContentSize());
+	this->addChild(jumpButton, 2);
 
 	//boto sprite added
 	botoSprite = new BotoSprite();
@@ -119,6 +125,11 @@ bool GameScreen::init()
 	this->scheduleUpdate();
 
 	this->schedule(schedule_selector(GameScreen::generateBox), BLOCK_GENERATION_TIME);
+
+	//add ground
+	auto ground = Sprite::create("Backgrounds/grounds.png");
+	ground->setPosition(Point(visibleSize.width / 2, visibleSize.height / 15));
+	this->addChild(ground, 1);
 
     return true;
 }
@@ -147,7 +158,12 @@ void GameScreen::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event)
 
 void GameScreen::generateBox(float dt)
 {
-	Blocks *newBlock = new Blocks(Blocks::GeneratePoint(1000, 720));
+	Blocks *newBlock = new Blocks(Point(0,0));
+	float startWidth = newBlock->getSprite()->getContentSize().width/2;
+	float endWidth =  visibleSize.width - newBlock->getSprite()->getContentSize().width/2;
+	float height = visibleSize.height - newBlock->getSprite()->getContentSize().height/2;
+	Vec2 point = Blocks::GeneratePoint(startWidth, endWidth, height);
+	newBlock->setPosition(point);
 	newBlock->DrawBlock(this);
 }
 
