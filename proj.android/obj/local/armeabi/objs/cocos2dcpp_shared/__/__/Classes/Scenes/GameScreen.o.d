@@ -325,8 +325,9 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/Scenes/GameScreen.o: \
  jni/../../cocos2d/external/Box2D/../json/internal/stack.h \
  D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/csetjmp \
  jni/../../cocos2d/external/Box2D/../json/internal/strfunc.h \
- jni/../../Classes/Scenes/PauseOverlay.h \
+ jni/../../Classes/Coins.h jni/../../Classes/Scenes/PauseOverlay.h \
  jni/../../Classes/CollisionManager.h jni/../../Classes/BotoSprite.h \
+ jni/../../Classes/Coins.h \
  jni/../../cocos2d/extensions/../extensions/cocos-ext.h \
  jni/../../cocos2d/extensions/../extensions/ExtensionMacros.h \
  jni/../../cocos2d/extensions/../extensions/GUI/CCControlExtension/CCControlExtensions.h \
@@ -1060,11 +1061,15 @@ D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sour
 
 jni/../../cocos2d/external/Box2D/../json/internal/strfunc.h:
 
+jni/../../Classes/Coins.h:
+
 jni/../../Classes/Scenes/PauseOverlay.h:
 
 jni/../../Classes/CollisionManager.h:
 
 jni/../../Classes/BotoSprite.h:
+
+jni/../../Classes/Coins.h:
 
 jni/../../cocos2d/extensions/../extensions/cocos-ext.h:
 

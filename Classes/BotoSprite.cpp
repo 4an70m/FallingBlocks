@@ -39,14 +39,13 @@ void BotoSprite::Jump(float yPos)
 	//NOT WORKING PROPERLY
 	//NEED SOME IMPROVEMENTS
 	//jump implementation
-	if (moveJump == true)
+	if (moveJump == true && jumpable == true)
 	{
 		CCLog("Jumping");
-		//botoBody->applyImpulse(Vec2(0, 20));
-		auto action = MoveTo::create(0.5f, Point(botoSprite->getPosition().x, botoSprite->getPosition().y+100.f));
-		botoSprite->runAction(action);
+		botoBody->applyImpulse(Vec2(0, yPos));
 		CCLog("Jumped");
 		moveJump = false;
+		jumpable = false;
 	}
 }
 
@@ -94,4 +93,16 @@ void BotoSprite::startMoveJump()
 void BotoSprite::stopMoveJump()
 {
 	moveJump = false;
+}
+Sprite *BotoSprite::getSprite()
+{
+	return botoSprite;
+}
+void BotoSprite::notJumpable()
+{
+	jumpable = false;
+}
+void BotoSprite::yesJumpable()
+{
+	jumpable = true;
 }

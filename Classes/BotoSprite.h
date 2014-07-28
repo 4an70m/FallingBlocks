@@ -22,6 +22,8 @@ public:
 	//jump sprite
 	void Jump(float yPos);
 
+	cocos2d::Sprite *getSprite();
+
 	//methods for controlling movements
 	void startMoveLeft();
 	void stopMoveLeft();
@@ -29,6 +31,8 @@ public:
 	void stopMoveRight();
 	void startMoveJump();
 	void stopMoveJump();
+	void notJumpable();
+	void yesJumpable();
 	cocos2d::Size visibleSize;
 
 private:
@@ -42,6 +46,7 @@ private:
 	bool moveLeft;
 	bool moveRight;
 	bool moveJump;
+	bool jumpable;
 };
 
 #endif // __BOTO_SPRITE_H__

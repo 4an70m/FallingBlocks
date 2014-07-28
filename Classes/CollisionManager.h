@@ -11,7 +11,7 @@ public:
 	CollisionManager();
 
 	//check collision
-	bool CheckCollision(const cocos2d::PhysicsContact& contact, int firstObjectBitmask, int secondObjectBitmask);
+	static bool CheckCollision(const cocos2d::PhysicsContact& contact, int firstObjectBitmask, int secondObjectBitmask);
 };
 
 #endif // __COLLISION_MANAGER_H__

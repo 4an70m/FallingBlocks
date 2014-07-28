@@ -10,7 +10,7 @@ Blocks::Blocks(cocos2d::Point point)
 	//actually here i pick a block
 	//but for test i'll leave this test_block
 	MyBodyParser::getInstance()->parseJsonFile(BRICK_BODIES);
-	this->blockType = PickABlock();
+	this->blockType = pickABlock();
 	switch(blockType)
 	{
 		case BlockType::I_BLOCK:
@@ -58,24 +58,29 @@ Blocks::Blocks(cocos2d::Point point)
 		case BlockType::BONUS_BLOCK:
 		{
 			blockSprite = Sprite::create(TEST_BLOCK);
-			blockBody = PhysicsBody::createEdgeBox(blockSprite->getContentSize());
+			blockBody = PhysicsBody::createBox(blockSprite->getContentSize());
 			break;
 		}
 	}
+	blockSprite->setAnchorPoint(Point(0.5f, 0.5f));
 	//physiscs activation!!
 	blockBody->setGravityEnable(true);
 	blockBody->setDynamic(true);
-	blockBody->setRotationEnable(false);
+	blockBody->setRotationEnable(true);
 	blockBody->setContactTestBitmask(true);
 	blockBody->setCollisionBitmask(BLOCKS_BITMASK);
-	blockBody->setMass(0.1f);
+	blockBody->setMass(0.9f);
+	blockBody->setRotationEnable(true);
 	blockSprite->setPhysicsBody(blockBody);
 	blockSprite->setPosition(point);
 	//~physics beatch!
+
+	touchable = true;
 }
 
+
 //draw a box to layer
-void Blocks::DrawBlock(cocos2d::Layer *layer)
+void Blocks::drawBlock(cocos2d::Layer *layer)
 {
 	layer->addChild(this->getSprite());
 }
@@ -91,6 +96,36 @@ Sprite *Blocks::getSprite()
 {
 	return blockSprite;
 }
+//get block's body
+PhysicsBody *Blocks::getBody()
+{
+	return blockBody;
+}
+//touchable stuff
+bool Blocks::isTouchable()
+{
+	return touchable;
+}
+void Blocks::toggleTouchable()
+{
+	touchable = !touchable;
+}
+//static stuff
+bool Blocks::isStatic()
+{
+	return !blockBody->isDynamic();
+}
+void Blocks::toggleStatic()
+{
+	blockBody->setDynamic(isStatic());
+}
+
+void Blocks::destroyBlock()
+{
+	auto remove = RemoveSelf::create(true);
+	blockSprite->runAction(remove);
+	//blockBody->release();
+}
 
 //generates a random number between two numbers
 float Blocks::RandomFloatBetween(float smallNumber, float bigNumber)
@@ -104,7 +139,7 @@ int Blocks::RandomIntBetween(int smallNumber, int bigNumber)
     return rand() % diff + smallNumber;
 }
 
-Blocks::BlockType Blocks::PickABlock()
+Blocks::BlockType Blocks::pickABlock()
 {
 	int random = RandomIntBetween(0, NUMBER_OF_BLOCKS);
 	return BlockType(random);

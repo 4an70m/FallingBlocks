@@ -6,8 +6,8 @@ Scene* GameScreen::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::createWithPhysics();
-    //scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-    scene->getPhysicsWorld()->setGravity(Point(0,-500));
+    scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+    scene->getPhysicsWorld()->setGravity(Point(0,-1000));
 
     //edge Node
     Size visibleSize2 = Director::getInstance()->getVisibleSize();
@@ -53,7 +53,7 @@ bool GameScreen::init()
 	menu_item_1->setPosition(Point((visibleSize.width / 5) * 4, (visibleSize.height * 19 / 20)));
 	auto *menu = Menu::create(menu_item_1, NULL);
 	menu->setPosition(Point(0, 0));
-	this->addChild(menu);
+	this->addChild(menu, 5);
 
 	/*
 	char text[256];
@@ -67,19 +67,19 @@ bool GameScreen::init()
 
 	//single touch listener
 	//adding event listener
-	auto singleListener = EventListenerTouchOneByOne::create();
-	singleListener->setSwallowTouches(true);
+	//auto singleListener = EventListenerTouchOneByOne::create();
+	//singleListener->setSwallowTouches(true);
 
 	//singleListener->onTouchBegan = CC_CALLBACK_2(GameScreen::onTouchBegan, this);
 	//singleListener->onTouchMoved = CC_CALLBACK_2(GameScreen::onTouchMoved, this);
-	singleListener->onTouchEnded = CC_CALLBACK_2(GameScreen::onTouchEnded, this);
+	//singleListener->onTouchEnded = CC_CALLBACK_2(GameScreen::onTouchEnded, this);
 
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(singleListener, this);
-/*
+	//_eventDispatcher->addEventListenerWithSceneGraphPriority(singleListener, this);
+
 	auto contactListener = EventListenerPhysicsContact::create();
 	contactListener->onContactBegin = CC_CALLBACK_1(GameScreen::onContactBegin, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
-*/
+
 
 	//Left button
 	auto sp1 = Sprite::create(LEFT_BUTTON);
@@ -127,8 +127,14 @@ bool GameScreen::init()
 	this->schedule(schedule_selector(GameScreen::generateBox), BLOCK_GENERATION_TIME);
 
 	//add ground
-	auto ground = Sprite::create("Backgrounds/grounds.png");
+	auto ground = Sprite::create(GAME_SCENE_GROUND);
 	ground->setPosition(Point(visibleSize.width / 2, visibleSize.height / 15));
+	auto groundBody = PhysicsBody::createEdgeBox(ground->getContentSize());
+	groundBody->setDynamic(false);
+	groundBody->setGravityEnable(false);
+	groundBody->setContactTestBitmask(true);
+	groundBody->setCollisionBitmask(GROUND_BITMASK);
+	ground->setPhysicsBody(groundBody);
 	this->addChild(ground, 1);
 
     return true;
@@ -145,11 +151,23 @@ void GameScreen::Pause(Ref *pSender)
 
 bool GameScreen::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
 {
+	current_node = nodeUnderTouch(touch);
+
+	if(current_node == newBlock->getSprite())
+	{
+		CCLog("got it!");
+		newBlock->setPosition(touch->getLocation());
+	}
+	else
+	{
+		CCLog("missed :c");
+	}
 	return true;
 }
 
 void GameScreen::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *event)
 {
+	newBlock->setPosition(touch->getLocation());
 }
 
 void GameScreen::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event)
@@ -158,25 +176,100 @@ void GameScreen::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event)
 
 void GameScreen::generateBox(float dt)
 {
-	Blocks *newBlock = new Blocks(Point(0,0));
+	newBlock = new Blocks(Point(0,0));
 	float startWidth = newBlock->getSprite()->getContentSize().width/2;
 	float endWidth =  visibleSize.width - newBlock->getSprite()->getContentSize().width/2;
 	float height = visibleSize.height - newBlock->getSprite()->getContentSize().height/2;
 	Vec2 point = Blocks::GeneratePoint(startWidth, endWidth, height);
 	newBlock->setPosition(point);
-	newBlock->DrawBlock(this);
+	newBlock->drawBlock(this);
 }
 
 
 
 bool GameScreen::onContactBegin(const PhysicsContact& contact)
 {
+	//collision with ground for jumping
+	if (CollisionManager::CheckCollision(contact, GROUND_BITMASK, BOTO_BITMASK))
+	{
+		botoSprite->yesJumpable();
+		botoSprite->stopMoveJump();
+	}
+	//collision with brick
+	//brick is destroyed
+	if (CollisionManager::CheckCollision(contact, BLOCKS_BITMASK, BOTO_BITMASK))
+	{
+		if(BLOCKS_BITMASK == contact.getShapeA()->getBody()->getCollisionBitmask())
+		{
+			Coins::generateCoins(this, 10, Point(700,700));
+			this->removeChild(contact.getShapeA()->getBody()->getNode());
+		}
+		else
+		{
+			Coins::generateCoins(this, 10, Point(700,700));
+			this->removeChild(contact.getShapeB()->getBody()->getNode());
+		}
+	}
+	//collsion with coin
+	//coin is destroyed
+	if (CollisionManager::CheckCollision(contact, COIN_BITMASK, BOTO_BITMASK))
+	{
+		if(COIN_BITMASK == contact.getShapeA()->getBody()->getCollisionBitmask())
+		{
+			this->removeChild(contact.getShapeA()->getBody()->getNode());
+		}
+		else
+		{
+			this->removeChild(contact.getShapeB()->getBody()->getNode());
+		}
+	}
+
+
+/*
+
+ 	if (sp1CollBitmask == GROUND_BITMASK && sp2CollBitmask == BOTO_BITMASK
+ 			|| sp2CollBitmask == GROUND_BITMASK && sp1CollBitmask == BOTO_BITMASK)
+ 	{
+ 		botoSprite->yesJumpable();
+ 		botoSprite->stopMoveJump();
+ 	}
+ 	//hitting block
+ 	if (sp1CollBitmask == BLOCKS_BITMASK && sp2CollBitmask == BOTO_BITMASK)
+	{
+ 		CCLog("Collision1");
+ 		auto temp = contact.getShapeA()->getBody()->getNode();
+ 		Coins::generateCoins(this, 10, temp->getPosition());
+ 		temp->removeFromParentAndCleanup(true);
+	}
+ 	if (sp2CollBitmask == BLOCKS_BITMASK && sp1CollBitmask == BOTO_BITMASK)
+ 	{
+ 		CCLog("Collision2");
+ 		auto temp = contact.getShapeB()->getBody()->getNode();
+ 		Coins::generateCoins(this, 10, temp->getPosition());
+ 		temp->removeFromParentAndCleanup(true);
+ 	}
+ 	//hitting coin
+	if (sp1CollBitmask == COIN_BITMASK && sp2CollBitmask == BOTO_BITMASK)
+	{
+		CCLog("Coin");
+		auto temp = (Sprite*)contact.getShapeA()->getBody()->getNode();
+		temp->removeFromParent();
+	}
+	if (sp2CollBitmask == COIN_BITMASK && sp1CollBitmask == BOTO_BITMASK)
+	{
+		CCLog("Coin");
+		auto temp = (Sprite*)contact.getShapeB()->getBody()->getNode();
+		temp ->removeFromParent();
+
+	}
+*/
 	return true;
 }
 
 void GameScreen::PressLeftButton(Object *sender, cocos2d::extension::Control::EventType controlEvent)
 {
 	CCLog("Press left");
+	botoSprite->stopMoveRight();
 	botoSprite->startMoveLeft();
 }
 void GameScreen::ReleaseLeftButton(Object *sender, cocos2d::extension::Control::EventType controlEvent)
@@ -187,6 +280,7 @@ void GameScreen::ReleaseLeftButton(Object *sender, cocos2d::extension::Control::
 void GameScreen::PressRightButton(Object *sender, cocos2d::extension::Control::EventType controlEvent)
 {
 	CCLog("Press right");
+	botoSprite->stopMoveLeft();
 	botoSprite->startMoveRight();
 }
 void GameScreen::ReleaseRightButton(Object *sender, cocos2d::extension::Control::EventType controlEvent)
@@ -207,8 +301,27 @@ void GameScreen::ReleaseJumpButton(Object *sender, cocos2d::extension::Control::
 void GameScreen::update(float dt)
 {
 	//CCLog("update!");
+
 	botoSprite->Move(5.0f);
-	botoSprite->Jump(200.0f);
+	botoSprite->Jump(70.0f);
+}
+
+Node* GameScreen::nodeUnderTouch(cocos2d::Touch *touch)
+{
+    Node* node = nullptr;
+    auto location = this->convertTouchToNodeSpace(touch);
+    auto scene = Director::getInstance()->getRunningScene();
+    auto arr = scene->getPhysicsWorld()->getShapes(location);
+    for (auto& obj : arr)
+    {
+        //find it
+        if ( obj->getBody()->getNode() == newBlock->getSprite())
+        {
+            node = obj->getBody()->getNode();
+            break;
+        }
+    }
+    return node;
 }
 
 void GameScreen::menuCloseCallback(Ref* pSender)
@@ -219,6 +332,10 @@ void GameScreen::menuCloseCallback(Ref* pSender)
 #endif
 
     Director::getInstance()->end();
+
+    //destruction
+    delete botoSprite;
+    botoSprite = nullptr;
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);

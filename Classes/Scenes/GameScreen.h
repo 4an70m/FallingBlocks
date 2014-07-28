@@ -9,6 +9,7 @@
 #include "CollisionManager.h"
 #include "BotoSprite.h"
 #include "Blocks.h"
+#include "Coins.h"
 #include "extensions/cocos-ext.h"
 #include "editor-support/cocostudio/cocostudio.h"
 
@@ -35,6 +36,7 @@ public:
     void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event);
     void onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *event);
     void generateBox(float dt);
+    Node* nodeUnderTouch(cocos2d::Touch *touch);
     float randomFloatBetween(float smallNumber ,float bigNumber);
     bool onContactBegin(const cocos2d::PhysicsContact& contact);
     void MoveLeft(cocos2d::Ref *pSender);
@@ -56,6 +58,9 @@ private:
     cocos2d::Size visibleSize;
     int points;
     cocos2d::CCLabelTTF* ttf1;
+    //block
+    Blocks *newBlock;
+    unsigned int points;
 };
 
 #endif // __GAME_SCREEN_H__

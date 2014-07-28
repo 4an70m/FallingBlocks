@@ -78,7 +78,7 @@ void MainMenuScreen::generateBox(float dt)
 	float height = visibleSize.height - newBlock->getSprite()->getContentSize().height/2;
 	Vec2 point = Blocks::GeneratePoint(startWidth, endWidth, height);
 	newBlock->setPosition(point);
-	newBlock->DrawBlock(this);
+	newBlock->drawBlock(this);
 	//setting scale and opacity
 	float time =  Blocks::RandomFloatBetween(MIN_FALLING_TIME,MAX_FALLING_TIME);
 	float farScale = 0.3f;

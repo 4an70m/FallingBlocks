@@ -324,7 +324,8 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/Scenes/SplashScreen.o: \
  jni/../../cocos2d/external/Box2D/../json/internal/pow10.h \
  jni/../../cocos2d/external/Box2D/../json/internal/stack.h \
  D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/csetjmp \
- jni/../../cocos2d/external/Box2D/../json/internal/strfunc.h
+ jni/../../cocos2d/external/Box2D/../json/internal/strfunc.h \
+ jni/../../Classes/Coins.h
 
 jni/../../Classes/Scenes/SplashScreen.h:
 
@@ -979,3 +980,5 @@ jni/../../cocos2d/external/Box2D/../json/internal/stack.h:
 D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/csetjmp:
 
 jni/../../cocos2d/external/Box2D/../json/internal/strfunc.h:
+
+jni/../../Classes/Coins.h:

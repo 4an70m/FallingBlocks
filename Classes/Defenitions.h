@@ -5,7 +5,7 @@
 #define SPLASH_SCREEN_APPEAR_TIME 		1.0f
 #define COVER_APPEARANCE_SPEED 			0.5f
 #define NUMBER_OF_BLOCKS				8
-#define BLOCK_GENERATION_TIME			1.0f
+#define BLOCK_GENERATION_TIME			0.50f
 #define FALLING_BLOCK_GENERATION_TIME	0.5f
 #define MIN_FALLING_TIME				10.0f
 #define MAX_FALLING_TIME				60.0f
@@ -18,6 +18,7 @@
 //sprites
 #define BOTO_SPRITE_PATH 		"Sprites/Robot.png"
 #define TEST_BLOCK 				"Sprites/Box.png"
+#define COIN					"Sprites/Coin.png"
 
 //blocks
 #define BRICK_I 				"Sprites/Bricks/BRICK-I.png"
@@ -32,9 +33,12 @@
 //bitmasks for collisions
 #define BOTO_BITMASK 			0x01
 #define BLOCKS_BITMASK 			0x02
+#define GROUND_BITMASK 			0x03
+#define COIN_BITMASK 			0x04
 
 //backgrounds
 #define GAME_SCENE_BACKGROUND 	"Backgrounds/game_scene_background.png"
+#define GAME_SCENE_GROUND		"Backgrounds/grounds.png"
 
 //UI
 #define LEFT_BUTTON 			"UI/Controls/left_button.png"
