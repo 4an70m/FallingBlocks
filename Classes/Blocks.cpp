@@ -2,13 +2,26 @@
 
 USING_NS_CC;
 
-//default constructor
-Blocks::Blocks(cocos2d::Point point)
-{
-	//Blocks::visibleSize = Director::getInstance()->getVisibleSize();
+bool Blocks::createBlocks = true;
 
+//default constructor
+Blocks::Blocks(cocos2d::Point point, bool bigBlock)
+{
+	if (bigBlock)
+	{
+		MyBodyParser::getInstance()->parseJsonFile(BRICK_BODIES);
+		blockSprite = Sprite::create(BRICK_BIG);
+		blockBody = MyBodyParser::getInstance()->bodyFormJson(blockSprite, "BRICK-BIG");
+		blockBody->setContactTestBitmask(true);
+		blockBody->setCollisionBitmask(BIGBLOCK_BITMASK);
+		blockBody->setDynamic(false);
+		blockBody->setGroup(-1);
+		blockSprite->setRotation(10.0f);
+		blockSprite->setPhysicsBody(blockBody);
+	}
+	else
+	{
 	//actually here i pick a block
-	//but for test i'll leave this test_block
 	MyBodyParser::getInstance()->parseJsonFile(BRICK_BODIES);
 	this->blockType = pickABlock();
 	switch(blockType)
@@ -62,25 +75,26 @@ Blocks::Blocks(cocos2d::Point point)
 			break;
 		}
 	}
-	blockSprite->setAnchorPoint(Point(0.5f, 0.5f));
+	//blockSprite->setAnchorPoint(Point(0.5f, 0.5f));
+
+	blockSprite->setPosition(point);
+	blockSprite->setRotation(RandomRotation());
 	//physiscs activation!!
 	blockBody->setGravityEnable(true);
 	blockBody->setDynamic(true);
-	blockBody->setRotationEnable(true);
 	blockBody->setContactTestBitmask(true);
 	blockBody->setCollisionBitmask(BLOCKS_BITMASK);
-	blockBody->setMass(0.9f);
-	blockBody->setRotationEnable(true);
+	blockBody->setMass(0.1f);
+	blockBody->setGroup(-1);
+	blockBody->setRotationEnable(false);
 	blockSprite->setPhysicsBody(blockBody);
-	blockSprite->setPosition(point);
 	//~physics beatch!
-
-	touchable = true;
+	}
 }
 
 
 //draw a box to layer
-void Blocks::drawBlock(cocos2d::Layer *layer)
+void Blocks::drawBlock(cocos2d::Layer *layer, int zOrder)
 {
 	layer->addChild(this->getSprite());
 }
@@ -101,30 +115,26 @@ PhysicsBody *Blocks::getBody()
 {
 	return blockBody;
 }
-//touchable stuff
-bool Blocks::isTouchable()
-{
-	return touchable;
-}
-void Blocks::toggleTouchable()
-{
-	touchable = !touchable;
-}
-//static stuff
-bool Blocks::isStatic()
-{
-	return !blockBody->isDynamic();
-}
-void Blocks::toggleStatic()
-{
-	blockBody->setDynamic(isStatic());
-}
 
-void Blocks::destroyBlock()
+Point Blocks::remove(const PhysicsContact &contact, Layer *layer)
 {
-	auto remove = RemoveSelf::create(true);
-	blockSprite->runAction(remove);
-	//blockBody->release();
+	float x = 0;
+	float y = 0;
+	if(BLOCKS_BITMASK == contact.getShapeA()->getBody()->getCollisionBitmask())
+	{
+		x = contact.getShapeA()->getBody()->getPosition().x;
+		y = contact.getShapeA()->getBody()->getPosition().y;
+		contact.getShapeA()->getBody()->removeFromWorld();
+		layer->removeChild(contact.getShapeA()->getBody()->getNode());
+	}
+	else
+	{
+		x = contact.getShapeB()->getBody()->getPosition().x;
+		y = contact.getShapeB()->getBody()->getPosition().y;
+		contact.getShapeB()->getBody()->removeFromWorld();
+		layer->removeChild(contact.getShapeB()->getBody()->getNode());
+	}
+	return Point(x, y);
 }
 
 //generates a random number between two numbers
@@ -137,6 +147,17 @@ int Blocks::RandomIntBetween(int smallNumber, int bigNumber)
 {
     int diff = bigNumber - smallNumber;
     return rand() % diff + smallNumber;
+}
+int Blocks::RandomRotation()
+{
+	int rotationChooser = RandomIntBetween(0,3);
+	switch(rotationChooser)
+	{
+	case 0: return 0;
+	case 1: return 90;
+	case 2: return 180;
+	case 3: return 270;
+	}
 }
 
 Blocks::BlockType Blocks::pickABlock()
@@ -151,4 +172,25 @@ cocos2d::Vec2 Blocks::GeneratePoint(float startWidth, float endWidth, float heig
 	point.x = RandomFloatBetween(startWidth, endWidth);
 	point.y = height;
 	return point;
+}
+
+void Blocks::emittParticles(cocos2d::Layer *layer, cocos2d::Point point)
+{
+	ParticleSystemQuad *emitter = ParticleSystemQuad::create("Json/XXX.plist");
+	emitter->retain();
+	emitter->setPosition(point);
+	layer->addChild(emitter, PARTICLE_ZORDER);
+}
+char* Blocks::getBlockType()
+{
+	return (char *[]){
+		"O_BLOCK",
+		"S_BLOCK",
+		"Z_BLOCK",
+		"J_BLOCK",
+		"L_BLOCK",
+		"I_BLOCK",
+		"T_BLOCK",
+		"BONUS_BLOCK"
+	}[(int)this->blockType];
 }

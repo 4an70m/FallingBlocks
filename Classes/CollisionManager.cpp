@@ -18,7 +18,10 @@ bool CollisionManager::CheckCollision(const cocos2d::PhysicsContact& contact, in
 		cocos2d::CCLog("Collision");
 		return true;
 	}
-	//if not - return false
-	return false;
+	else
+	{
+		//if not - return false
+		return false;
+	}
 }
 

@@ -19,38 +19,35 @@ BotoSprite::BotoSprite()
 	botoBody->setContactTestBitmask(true);
 	botoBody->setCollisionBitmask(BOTO_BITMASK);
 	botoBody->setMass(0.1f);
+	botoBody->setGroup(1);
 	botoSprite->setPhysicsBody(botoBody);
 	//~physiscs bitch!!
 
 	moveLeft = false;
 	moveRight = false;
-	moveJump = false;
+//	moveJump = false;
 }
 
 //draw BOTO on a layer
-void BotoSprite::Draw(Layer *layer)
+void BotoSprite::draw(Layer *layer, int zOrder)
 {
 	layer->addChild(botoSprite, 0);
 }
-
-//jump action
-void BotoSprite::Jump(float yPos)
+void BotoSprite::remove(const PhysicsContact &contact, Layer *layer)
 {
-	//NOT WORKING PROPERLY
-	//NEED SOME IMPROVEMENTS
-	//jump implementation
-	if (moveJump == true && jumpable == true)
+	if(BOTO_BITMASK == contact.getShapeA()->getBody()->getCollisionBitmask())
 	{
-		CCLog("Jumping");
-		botoBody->applyImpulse(Vec2(0, yPos));
-		CCLog("Jumped");
-		moveJump = false;
-		jumpable = false;
+		contact.getShapeA()->getBody()->removeFromWorld();
+		layer->removeChild(contact.getShapeA()->getBody()->getNode());
+	}
+	else
+	{
+		contact.getShapeB()->getBody()->removeFromWorld();
+		layer->removeChild(contact.getShapeB()->getBody()->getNode());
 	}
 }
-
 //move action
-void BotoSprite::Move(float xSpeed)
+void BotoSprite::move(float xSpeed)
 {
 	//move implemetation
 	if (moveLeft == true)
@@ -64,7 +61,7 @@ void BotoSprite::Move(float xSpeed)
 }
 
 //bonus collected
-void BotoSprite::GotBonus(int bonusType)
+void BotoSprite::gotBonus(int bonusType)
 {
 	//Bonus implementation
 }
@@ -86,23 +83,15 @@ void BotoSprite::stopMoveRight()
 {
 	moveRight = false;
 }
-void BotoSprite::startMoveJump()
+Point BotoSprite::getPosition()
 {
-	moveJump = true;
-}
-void BotoSprite::stopMoveJump()
-{
-	moveJump = false;
+	return botoSprite->getPosition();
 }
 Sprite *BotoSprite::getSprite()
 {
 	return botoSprite;
 }
-void BotoSprite::notJumpable()
+PhysicsBody *BotoSprite::getBody()
 {
-	jumpable = false;
-}
-void BotoSprite::yesJumpable()
-{
-	jumpable = true;
+	return botoBody;
 }

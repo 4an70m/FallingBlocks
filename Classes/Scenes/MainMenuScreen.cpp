@@ -35,7 +35,7 @@ bool MainMenuScreen::init()
     // add "MainMenuScreen" splash screen"
     auto background = Sprite::create("Backgrounds/main_menu_background.png");
     background->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-    this->addChild(background, 0);
+    this->addChild(background, BACKGROUND_ZORDER);
     //add background falling blocks
 	this->schedule(schedule_selector(MainMenuScreen::generateBox), FALLING_BLOCK_GENERATION_TIME);
     //main menu items
@@ -43,17 +43,17 @@ bool MainMenuScreen::init()
     //menu_item_1->setPosition(Point(visibleSize.width / 2, visibleSize.height / 2));
     auto *menu = Menu::create(menu_item_1, NULL);
     menu->setPosition(Point(visibleSize.width / 2, visibleSize.height / 15));
-    this->addChild(menu);
+    this->addChild(menu, BUTTONS_ZORDER);
     //animation of waving Boto
     cocostudio::CCArmatureDataManager::sharedArmatureDataManager()->addArmatureFileInfo(BOTO_MM_PNG,BOTO_MM_PLIST,BOTO_MM_JSON);
     cocostudio::CCArmature *armature = cocostudio::CCArmature::create("MainMenuBoto");
 	armature->setPosition(Point(visibleSize.width / 2, visibleSize.height / 16 * 3));
 	armature->getAnimation()->playWithIndex(0);
-	this->addChild(armature, 2);
+	this->addChild(armature, BOTO_ZORDER);
 	//add ground
-	auto ground = Sprite::create("Backgrounds/ground.png");
-	ground->setPosition(Point(visibleSize.width / 2, visibleSize.height / 16 * 2));
-	this->addChild(ground, 1);
+	auto ground = Sprite::create(GAME_SCENE_GROUND);
+	ground->setPosition(Point(visibleSize.width / 2, visibleSize.height / 15));
+	this->addChild(ground, GROUND_ZORDER);
 
     return true;
 }
@@ -71,33 +71,30 @@ void MainMenuScreen::Play(Ref *pSender)
 void MainMenuScreen::generateBox(float dt)
 {
 	//generating block
-	Blocks *newBlock = new Blocks(Point(0,0));
+	Blocks *newBlock = new Blocks(Point(0,0), false);
 	//positioning block
 	float startWidth = newBlock->getSprite()->getContentSize().width/2;
 	float endWidth =  visibleSize.width - newBlock->getSprite()->getContentSize().width/2;
 	float height = visibleSize.height - newBlock->getSprite()->getContentSize().height/2;
 	Vec2 point = Blocks::GeneratePoint(startWidth, endWidth, height);
 	newBlock->setPosition(point);
-	newBlock->drawBlock(this);
+	newBlock->drawBlock(this, BLOCK_ZORDER);
 	//setting scale and opacity
 	float time =  Blocks::RandomFloatBetween(MIN_FALLING_TIME,MAX_FALLING_TIME);
-	float farScale = 0.3f;
-	float middleScale = 0.5f;
-	float closeScale = 0.7f;
 	if(time < 20.0f)
 	{
-		newBlock->getSprite()->setScale(closeScale);
-		newBlock->getSprite()->setOpacity(225);
+		newBlock->getSprite()->setScale(SCALE_07);
+		newBlock->getSprite()->setOpacity(OPACITY_225);
 	}
 	if(time >= 20.0f && time < 40.0f)
 	{
-		newBlock->getSprite()->setScale(middleScale);
-		newBlock->getSprite()->setOpacity(178);
+		newBlock->getSprite()->setScale(SCALE_05);
+		newBlock->getSprite()->setOpacity(OPACITY_178);
 	}
 	if(time >= 40.0f && time <= MAX_FALLING_TIME)
 	{
-		newBlock->getSprite()->setScale(farScale);
-		newBlock->getSprite()->setOpacity(127);
+		newBlock->getSprite()->setScale(SCALE_03);
+		newBlock->getSprite()->setOpacity(OPACITY_127);
 	}
 	//moving block
 	auto move = MoveTo::create(time, Point(newBlock->getSprite()->getPosition().x, 0));

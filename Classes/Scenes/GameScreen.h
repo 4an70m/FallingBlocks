@@ -9,6 +9,7 @@
 #include "CollisionManager.h"
 #include "BotoSprite.h"
 #include "Blocks.h"
+#include "Ground.h"
 #include "Coins.h"
 #include "extensions/cocos-ext.h"
 #include "editor-support/cocostudio/cocostudio.h"
@@ -32,35 +33,47 @@ public:
 
     void Pause(cocos2d::Ref *pSender);
     void TestDeath(cocos2d::Ref *pSender);
+    //TOUCHES
     bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
-    void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event);
-    void onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *event);
-    void generateBox(float dt);
     Node* nodeUnderTouch(cocos2d::Touch *touch);
-    float randomFloatBetween(float smallNumber ,float bigNumber);
+    //GENERATIONS
+    void generateBlock(float dt);
+    void generateBonusLevel(float dt);
+    //CONTACTS
     bool onContactBegin(const cocos2d::PhysicsContact& contact);
+    //MOVES
     void MoveLeft(cocos2d::Ref *pSender);
     void MoveRight(cocos2d::Ref *pSender);
     void MoveJump(cocos2d::Ref *pSender);
     void update(float dt);
+    //BUTTONS
     void PressLeftButton(cocos2d::Object *sender, cocos2d::extension::Control::EventType controlEvent);
     void ReleaseLeftButton(cocos2d::Object *sender, cocos2d::extension::Control::EventType controlEvent);
     void PressRightButton(cocos2d::Object *sender, cocos2d::extension::Control::EventType controlEvent);
     void ReleaseRightButton(cocos2d::Object *sender, cocos2d::extension::Control::EventType controlEvent);
-    void PressJumpButton(cocos2d::Object *sender, cocos2d::extension::Control::EventType controlEvent);
-    void ReleaseJumpButton(cocos2d::Object *sender, cocos2d::extension::Control::EventType controlEvent);
+
 private:
     BotoSprite *botoSprite;
-    cocos2d::CCSprite *leftButton;
-    cocos2d::CCSprite *rightButton;
-    cocos2d::CCSprite *jumpButton;
+    Ground *ground;
+
+    cocos2d::Sprite *leftButton;
+    cocos2d::Sprite *rightButton;
+
     cocos2d::PhysicsWorld* m_world;
     cocos2d::Size visibleSize;
-    int points;
-    cocos2d::CCLabelTTF* ttf1;
+    cocos2d::Node *current_node;
+    cocos2d::LabelTTF *pointsLabel;
+    cocos2d::Point point;
+    char text[256];
     //block
     Blocks *newBlock;
+    Blocks *bonusBlock;
     unsigned int points;
+    bool bonusIsOn;
+    int bonusBlockHealth;
+    unsigned int numberOfBonuses;
+    bool botoIsAlive;
+    int block;
 };
 
 #endif // __GAME_SCREEN_H__

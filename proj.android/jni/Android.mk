@@ -21,6 +21,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 				   ../../Classes/Scenes/PauseOverlay.cpp \
 				   ../../Classes/MyBodyParser.cpp \
 				   ../../Classes/Coins.cpp \
+				   ../../Classes/Ground.cpp \
 				   ../../Classes/Blocks.cpp
 				   
 
