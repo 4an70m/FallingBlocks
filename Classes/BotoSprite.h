@@ -3,7 +3,7 @@
 
 #include "cocos2d.h"
 #include "Defenitions.h"
-
+#include "Blocks.h"
 class BotoSprite
 {
 public:
@@ -25,6 +25,10 @@ public:
 	void stopMoveLeft();
 	void startMoveRight();
 	void stopMoveRight();
+	float getSpeed();
+	void setSpeed(float speed);
+	void setPosition(Point point);
+	void *createBody(float scale);
 
 
 	cocos2d::Point getPosition();
@@ -43,6 +47,7 @@ private:
 	float jumpHeight;
 	bool moveLeft;
 	bool moveRight;
+	float speed;
 };
 
 #endif // __BOTO_SPRITE_H__

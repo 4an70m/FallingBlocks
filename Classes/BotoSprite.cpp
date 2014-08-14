@@ -12,20 +12,12 @@ BotoSprite::BotoSprite()
 	//set postition
 	botoSprite->setPosition(Point(visibleSize.width / 2, visibleSize.height / 2));
 	//physiscs activation!!
-	botoBody = PhysicsBody::createBox(botoSprite->getContentSize());
-	botoBody->setGravityEnable(true);
-	botoBody->setDynamic(true);
-	botoBody->setRotationEnable(false);
-	botoBody->setContactTestBitmask(true);
-	botoBody->setCollisionBitmask(BOTO_BITMASK);
-	botoBody->setMass(0.1f);
-	botoBody->setGroup(1);
-	botoSprite->setPhysicsBody(botoBody);
+	createBody(1.0f);
 	//~physiscs bitch!!
 
 	moveLeft = false;
 	moveRight = false;
-//	moveJump = false;
+	speed = 5.0f;
 }
 
 //draw BOTO on a layer
@@ -33,6 +25,24 @@ void BotoSprite::draw(Layer *layer, int zOrder)
 {
 	layer->addChild(botoSprite, 0);
 }
+void *BotoSprite::createBody(float scale)
+{
+	botoBody = PhysicsBody::createBox(
+		Size(
+				botoSprite->getContentSize().width * scale,
+				botoSprite->getContentSize().height * scale
+		)
+	);
+	botoBody->setGravityEnable(true);
+	botoBody->setDynamic(true);
+	botoBody->setRotationEnable(false);
+	botoBody->setContactTestBitmask(true);
+	botoBody->setCollisionBitmask(BOTO_BITMASK);
+	botoBody->setMass(0.5f);
+	botoBody->setGroup(1);
+	botoSprite->setPhysicsBody(botoBody);
+}
+
 void BotoSprite::remove(const PhysicsContact &contact, Layer *layer)
 {
 	if(BOTO_BITMASK == contact.getShapeA()->getBody()->getCollisionBitmask())
@@ -58,12 +68,6 @@ void BotoSprite::move(float xSpeed)
 	{
 		botoSprite->setPositionX(botoSprite->getPositionX()+xSpeed);
 	}
-}
-
-//bonus collected
-void BotoSprite::gotBonus(int bonusType)
-{
-	//Bonus implementation
 }
 
 //implementation of movement methods
@@ -94,4 +98,16 @@ Sprite *BotoSprite::getSprite()
 PhysicsBody *BotoSprite::getBody()
 {
 	return botoBody;
+}
+float BotoSprite::getSpeed()
+{
+	return speed;
+}
+void BotoSprite::setSpeed(float speed)
+{
+	this->speed = speed;
+}
+void BotoSprite::setPosition(Point point)
+{
+	botoSprite->setPosition(point);
 }

@@ -4,7 +4,8 @@
 #define SPLASH_SCREEN_TRANSITION_LENGTH 1.0f
 #define SPLASH_SCREEN_APPEAR_TIME 		1.0f
 #define COVER_APPEARANCE_SPEED 			0.5f
-#define NUMBER_OF_BLOCKS				8
+#define NUMBER_OF_BLOCKS				5
+#define NUMBER_OF_BONUS					5
 
 #define FALLING_BLOCK_GENERATION_TIME	0.50f
 #define MIN_FALLING_TIME				10.0f
@@ -46,6 +47,7 @@
 #define GROUND_BITMASK 			0x03
 #define COIN_BITMASK 			0x05
 #define BIGBLOCK_BITMASK		0x04
+#define BONUS_BITMASK			0x04
 
 //backgrounds
 #define GAME_SCENE_BACKGROUND 	"Backgrounds/game_scene_background.png"

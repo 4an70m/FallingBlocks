@@ -327,7 +327,8 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/Scenes/GameScreen.o: \
  jni/../../cocos2d/external/Box2D/../json/internal/strfunc.h \
  jni/../../Classes/Coins.h jni/../../Classes/Scenes/PauseOverlay.h \
  jni/../../Classes/CollisionManager.h jni/../../Classes/BotoSprite.h \
- jni/../../Classes/Ground.h jni/../../Classes/Coins.h \
+ jni/../../Classes/Blocks.h jni/../../Classes/Ground.h \
+ jni/../../Classes/Coins.h \
  jni/../../cocos2d/extensions/../extensions/cocos-ext.h \
  jni/../../cocos2d/extensions/../extensions/ExtensionMacros.h \
  jni/../../cocos2d/extensions/../extensions/GUI/CCControlExtension/CCControlExtensions.h \
@@ -1068,6 +1069,8 @@ jni/../../Classes/Scenes/PauseOverlay.h:
 jni/../../Classes/CollisionManager.h:
 
 jni/../../Classes/BotoSprite.h:
+
+jni/../../Classes/Blocks.h:
 
 jni/../../Classes/Ground.h:
 

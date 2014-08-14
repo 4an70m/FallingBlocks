@@ -39,6 +39,7 @@ public:
     //GENERATIONS
     void generateBlock(float dt);
     void generateBonusLevel(float dt);
+    void generateBonusBlock(float dt);
     //CONTACTS
     bool onContactBegin(const cocos2d::PhysicsContact& contact);
     //MOVES
@@ -51,6 +52,10 @@ public:
     void ReleaseLeftButton(cocos2d::Object *sender, cocos2d::extension::Control::EventType controlEvent);
     void PressRightButton(cocos2d::Object *sender, cocos2d::extension::Control::EventType controlEvent);
     void ReleaseRightButton(cocos2d::Object *sender, cocos2d::extension::Control::EventType controlEvent);
+    //BONUS
+    void bonusHandler();
+    void acceptBonus();
+    void negateBonus(float dt);
 
 private:
     BotoSprite *botoSprite;
@@ -69,11 +74,17 @@ private:
     Blocks *newBlock;
     Blocks *bonusBlock;
     unsigned int points;
+    bool botoIsAlive;
+    //megablock
     bool bonusIsOn;
     int bonusBlockHealth;
     unsigned int numberOfBonuses;
-    bool botoIsAlive;
-    int block;
+    //bonuses
+    int bonusGenSpeed;
+	int bonus;
+	int time;
+	int multiplier;
+
 };
 
 #endif // __GAME_SCREEN_H__

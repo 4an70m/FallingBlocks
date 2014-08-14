@@ -12,18 +12,31 @@ public:
 
 	enum class BlockType
 	{
-		O_BLOCK,
-		S_BLOCK,
-		Z_BLOCK,
-		J_BLOCK,
-		L_BLOCK,
 		I_BLOCK,
+		L_BLOCK,
+		O_BLOCK,
+		Z_BLOCK,
 		T_BLOCK,
-		BONUS_BLOCK
+	};
+
+	enum class BlockSuperType
+	{
+		NORMAL_BLOCK,
+		BONUS_BLOCK,
+		MEGABLOCK
+	};
+
+	enum class BonusType
+	{
+		SMALL_BOTO 	= 101,
+		FAST_BOTO 	= 102,
+		X2_POINTS	= 103,
+		FAST_GRAV	= 104,
+		FAST_GEN	= 105
 	};
 
 	//default constructor
-	Blocks(cocos2d::Point point, bool bigBlock);
+	Blocks(cocos2d::Point point, BlockSuperType blockSuperType);
 
 	//set current block's position
 	void setPosition(cocos2d::Point point);
@@ -50,13 +63,15 @@ public:
 	static cocos2d::Vec2 GeneratePoint(float startWidth, float endWidth, float height);
 	static int RandomRotation();
 	static bool createBlocks;
+
+	int pickABonus();
 private:
 	//block
 	cocos2d::Sprite *blockSprite;
 	//block's physic body
 	cocos2d::PhysicsBody *blockBody;
-
 	BlockType blockType;
+	BlockSuperType blockSuperType;
 };
 
 #endif // __BLOCKS_H__

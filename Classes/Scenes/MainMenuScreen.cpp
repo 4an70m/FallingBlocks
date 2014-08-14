@@ -71,7 +71,8 @@ void MainMenuScreen::Play(Ref *pSender)
 void MainMenuScreen::generateBox(float dt)
 {
 	//generating block
-	Blocks *newBlock = new Blocks(Point(0,0), false);
+	//Blocks *newBlock = new Blocks(Point(0,0), false);
+	Blocks *newBlock = new Blocks(Point(0,0), Blocks::BlockSuperType::NORMAL_BLOCK);
 	//positioning block
 	float startWidth = newBlock->getSprite()->getContentSize().width/2;
 	float endWidth =  visibleSize.width - newBlock->getSprite()->getContentSize().width/2;
