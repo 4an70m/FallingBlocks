@@ -3,98 +3,130 @@
 USING_NS_CC;
 
 bool Blocks::createBlocks = true;
+Blocks::Blocks()
+{
+}
+void Blocks::init()
+{
+	blockSprite = Sprite::create(BRICK_L);
+	blockSprite = Sprite::create(BRICK_O);
+	blockSprite = Sprite::create(BRICK_Z);
+	blockSprite = Sprite::create(BRICK_T);
+	blockSprite = Sprite::create(BRICK_J);
+	blockSprite = Sprite::create(BRICK_S);
+	blockSprite = Sprite::create(BRICK_I);
+	blockSprite = Sprite::create(BONUS_BLOCKS);
+	blockSprite = Sprite::create(MEGABLOCK);
+}
 
 //default constructor
-Blocks::Blocks(cocos2d::Point point, BlockSuperType blockSuperType)
+Blocks *Blocks::create(cocos2d::Point point, BlockSuperType blockSuperType)
 {
-	switch(blockSuperType)
+	Blocks *block = new Blocks();
+	Blocks::BlockType enumer;
+	if(blockSuperType == BlockSuperType::NORMAL_BLOCK)
 	{
-		case BlockSuperType::MEGABLOCK:
+		MyBodyParser::getInstance()->parseJsonFile(BRICK_BODIES);
+		block->blockType = Blocks::pickABlock();
+		char *spriteName;
+		char *spritePath;
+		switch(block->blockType)
 		{
-			MyBodyParser::getInstance()->parseJsonFile(BRICK_BODIES);
-			blockSprite = Sprite::create(BRICK_BIG);
-			blockBody = MyBodyParser::getInstance()->bodyFormJson(blockSprite, "BRICK-BIG");
-			blockBody->setContactTestBitmask(true);
-			blockBody->setCollisionBitmask(BIGBLOCK_BITMASK);
-			blockBody->setDynamic(false);
-			blockBody->setGroup(-1);
-			blockSprite->setRotation(10.0f);
-			blockSprite->setPhysicsBody(blockBody);
-			break;
-		}
-		case BlockSuperType::BONUS_BLOCK:
-		{
-			//bonus block
-			blockSprite = Sprite::create(TEST_BLOCK);
-			blockBody = PhysicsBody::createBox(blockSprite->getContentSize());
-			//tag bonus type
-			//enum bonus type
-			blockBody->setTag(pickABonus());
-			blockSprite->setPhysicsBody(blockBody);
-			blockSprite->setPosition(point);
-			blockBody->setContactTestBitmask(true);
-			blockBody->setCollisionBitmask(BLOCKS_BITMASK);
-			blockBody->setMass(0.1f);
-			blockBody->setGroup(-1);
-			break;
-		}
-		case BlockSuperType::NORMAL_BLOCK:
-		{
-			MyBodyParser::getInstance()->parseJsonFile(BRICK_BODIES);
-			//actually here i pick a block
-			blockType = pickABlock();
-
-			switch(blockType)
+			case Blocks::BlockType::L_BLOCK:
 			{
-				case BlockType::L_BLOCK:
-				{
-					blockSprite = Sprite::create(BRICK_L);
-					blockBody = MyBodyParser::getInstance()->bodyFormJson(blockSprite, "BRICK-L");
-					break;
-				}
-				case BlockType::O_BLOCK:
-				{
-					blockSprite = Sprite::create(BRICK_O);
-					blockBody = MyBodyParser::getInstance()->bodyFormJson(blockSprite, "BRICK-O");
-					break;
-				}
-				case BlockType::Z_BLOCK:
-				{
-					blockSprite = Sprite::create(BRICK_Z);
-					blockBody = MyBodyParser::getInstance()->bodyFormJson(blockSprite, "BRICK-Z");
-					break;
-				}
-				case BlockType::T_BLOCK:
-				{
-					blockSprite = Sprite::create(BRICK_T);
-					blockBody = MyBodyParser::getInstance()->bodyFormJson(blockSprite, "BRICK-T");
-					break;
-				}
-				case BlockType::I_BLOCK:
-				{
-					blockSprite = Sprite::create(BRICK_I);
-					blockBody = MyBodyParser::getInstance()->bodyFormJson(blockSprite, "BRICK-I");
-					break;
-				}
+				spriteName = "BRICK-L";
+				spritePath = BRICK_L;
+				break;
 			}
-			blockSprite->setPhysicsBody(blockBody);
-			blockSprite->setPosition(point);
-			blockSprite->setRotation(RandomRotation());
-			blockBody->setContactTestBitmask(true);
-			blockBody->setCollisionBitmask(BLOCKS_BITMASK);
-			blockBody->setMass(0.1f);
-			blockBody->setGroup(-1);
-			blockBody->setTag(0);
-			//~physics beatch!
+			case Blocks::BlockType::O_BLOCK:
+			{
+				spriteName = "BRICK-O";
+				spritePath = BRICK_O;
+				break;
+			}
+			case Blocks::BlockType::Z_BLOCK:
+			{
+				spriteName = "BRICK-Z";
+				spritePath = BRICK_Z;
+				break;
+			}
+			case Blocks::BlockType::T_BLOCK:
+			{
+				spriteName = "BRICK-T";
+				spritePath = BRICK_T;
+				break;
+			}
+			case Blocks::BlockType::I_BLOCK:
+			{
+				spriteName = "BRICK-I";
+				spritePath = BRICK_I;
+				break;
+			}
+			case Blocks::BlockType::J_BLOCK:
+			{
+				spriteName = "BRICK-J";
+				spritePath = BRICK_J;
+				break;
+			}
+			case Blocks::BlockType::S_BLOCK:
+			{
+				spriteName = "BRICK-S";
+				spritePath = BRICK_S;
+				break;
+			}
 		}
+		block->blockSprite = Sprite::create(spritePath);
+		block->blockBody = MyBodyParser::getInstance()->bodyFormJson(block->blockSprite, spriteName);
+		block->blockSprite->setPhysicsBody(block->blockBody);
+		block->blockSprite->setPosition(point);
+		block->blockSprite->setRotation(RandomRotation());
+		block->blockBody->setContactTestBitmask(true);
+		block->blockBody->setCollisionBitmask(BLOCKS_BITMASK);
+		block->blockBody->setGroup(-1);
+		block->blockBody->setTag(0);
 	}
+	if(blockSuperType == BlockSuperType::BONUS_BLOCK)
+	{
+		block->blockSprite = Sprite::create(BONUS_BLOCKS);
+		block->blockBody = PhysicsBody::createBox(block->blockSprite->getContentSize());
+		block->blockSprite->setPhysicsBody(block->blockBody);
+		block->blockSprite->setPosition(point);
+		block->blockBody->setTag(Blocks::pickABonus());
+		block->blockBody->setContactTestBitmask(true);
+		block->blockBody->setCollisionBitmask(BLOCKS_BITMASK);
+		block->blockBody->setMass(0.01f);
+		block->blockBody->setGroup(-1);
+	}
+	if(blockSuperType == BlockSuperType::MEGA_BLOCK)
+	{
+		MyBodyParser::getInstance()->parseJsonFile(BRICK_BODIES);
+		block->blockSprite = Sprite::create(MEGABLOCK);
+		block->blockBody = MyBodyParser::getInstance()->bodyFormJson(block->blockSprite, "BRICK-BIG");
+		block->blockSprite->setPhysicsBody(block->blockBody);
+		block->blockSprite->setPosition(point);
+		block->blockBody->setTag(0);
+		block->blockBody->setContactTestBitmask(true);
+		block->blockBody->setCollisionBitmask(MEGABLOCK_BITMASK);
+		block->blockBody->setGravityEnable(false);
+		block->blockSprite->setRotation(-10.0f);
+		block->blockBody->setGroup(-1);
+	}
+	return block;
 }
 
 
 //draw a box to layer
+void Blocks::drawBlock(cocos2d::Layer *layer, int zOrder, int speedOfFalling)
+{
+	layer->addChild(this->getSprite(), zOrder);
+	auto move = MoveTo::create(speedOfFalling, Point(this->getSprite()->getPositionX(), -this->getSprite()->getContentSize().height / 2));
+	auto remove = RemoveSelf::create(true);
+	auto seq = Sequence::create(move, remove, NULL);
+	this->getSprite()->runAction(seq);
+}
 void Blocks::drawBlock(cocos2d::Layer *layer, int zOrder)
 {
-	layer->addChild(this->getSprite());
+	layer->addChild(this->getSprite(), zOrder);
 }
 
 //setting block position
@@ -133,6 +165,17 @@ Point Blocks::remove(const PhysicsContact &contact, Layer *layer)
 		contact.getShapeB()->getBody()->removeFromWorld();
 		layer->removeChild(contact.getShapeB()->getBody()->getNode());
 	}
+	return Point(x, y);
+}
+
+Point Blocks::remove(Layer *layer)
+{
+	float x = 0;
+	float y = 0;
+	x = blockSprite->getPosition().x;
+	y = blockSprite->getPosition().y;
+	blockBody->removeFromWorld();
+	layer->removeChild(blockSprite);
 	return Point(x, y);
 }
 
@@ -196,4 +239,14 @@ char* Blocks::getBlockType()
 		"T_BLOCK",
 		"BONUS_BLOCK"
 	}[(int)this->blockType];
+}
+char* Blocks::getBonusType(int bonusType)
+{
+	return (char *[]){
+		"a tiny bonus",
+		"a speedy bonus",
+		"x2 points",
+		"a stronger gravity",
+		"a weaker gravity"
+	}[bonusType];
 }

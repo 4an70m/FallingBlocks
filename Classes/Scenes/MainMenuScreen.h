@@ -1,6 +1,5 @@
 #ifndef __MAIN_MENU_SCREEN_H__
 #define __MAIN_MENU_SCREEN_H__
-#define TO_PLAY_SCENE_TRANSITION_TIME 1.0f
 
 #include "cocos2d.h"
 #include "Defenitions.h"
@@ -26,6 +25,7 @@ public:
 
     void generateBox(float dt);
 private:
+    Blocks *newBlock;
     cocos2d::Size visibleSize;
 };
 

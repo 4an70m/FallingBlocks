@@ -327,8 +327,22 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/Scenes/GameScreen.o: \
  jni/../../cocos2d/external/Box2D/../json/internal/strfunc.h \
  jni/../../Classes/Coins.h jni/../../Classes/Scenes/PauseOverlay.h \
  jni/../../Classes/CollisionManager.h jni/../../Classes/BotoSprite.h \
- jni/../../Classes/Blocks.h jni/../../Classes/Ground.h \
- jni/../../Classes/Coins.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmature.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureDefine.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCBone.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDatas.h \
+ jni/../../cocos2d/cocos/./2d/CCTweenFunction.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCTween.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCProcessBase.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDecorativeDisplay.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDisplayFactory.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCColliderDetector.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDisplayManager.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCBatchNode.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureAnimation.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCSpriteFrameCacheHelper.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureDataManager.h \
+ jni/../../Classes/Ground.h jni/../../Classes/Coins.h \
  jni/../../cocos2d/extensions/../extensions/cocos-ext.h \
  jni/../../cocos2d/extensions/../extensions/ExtensionMacros.h \
  jni/../../cocos2d/extensions/../extensions/GUI/CCControlExtension/CCControlExtensions.h \
@@ -366,21 +380,6 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/Scenes/GameScreen.o: \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCActionObject.h \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCActionNode.h \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/DictionaryHelper.h \
- jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmature.h \
- jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureDefine.h \
- jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCBone.h \
- jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDatas.h \
- jni/../../cocos2d/cocos/./2d/CCTweenFunction.h \
- jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCTween.h \
- jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCProcessBase.h \
- jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDecorativeDisplay.h \
- jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDisplayFactory.h \
- jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCColliderDetector.h \
- jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDisplayManager.h \
- jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCBatchNode.h \
- jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureAnimation.h \
- jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCSpriteFrameCacheHelper.h \
- jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureDataManager.h \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCSkin.h \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDataReaderHelper.h \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCTransformHelp.h \
@@ -1070,7 +1069,35 @@ jni/../../Classes/CollisionManager.h:
 
 jni/../../Classes/BotoSprite.h:
 
-jni/../../Classes/Blocks.h:
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmature.h:
+
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureDefine.h:
+
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCBone.h:
+
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDatas.h:
+
+jni/../../cocos2d/cocos/./2d/CCTweenFunction.h:
+
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCTween.h:
+
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCProcessBase.h:
+
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDecorativeDisplay.h:
+
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDisplayFactory.h:
+
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCColliderDetector.h:
+
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDisplayManager.h:
+
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCBatchNode.h:
+
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureAnimation.h:
+
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCSpriteFrameCacheHelper.h:
+
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureDataManager.h:
 
 jni/../../Classes/Ground.h:
 
@@ -1149,36 +1176,6 @@ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCActionObject.h
 jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCActionNode.h:
 
 jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/DictionaryHelper.h:
-
-jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmature.h:
-
-jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureDefine.h:
-
-jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCBone.h:
-
-jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDatas.h:
-
-jni/../../cocos2d/cocos/./2d/CCTweenFunction.h:
-
-jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCTween.h:
-
-jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCProcessBase.h:
-
-jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDecorativeDisplay.h:
-
-jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDisplayFactory.h:
-
-jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCColliderDetector.h:
-
-jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDisplayManager.h:
-
-jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCBatchNode.h:
-
-jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureAnimation.h:
-
-jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCSpriteFrameCacheHelper.h:
-
-jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureDataManager.h:
 
 jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCSkin.h:
 

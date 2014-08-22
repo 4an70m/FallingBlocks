@@ -33,7 +33,7 @@ bool SplashScreen::init()
     origin = Director::getInstance()->getVisibleOrigin();
 
     // add "SplashScreen" splash screen"
-   splashScreen = Sprite::create("Backgrounds/splash_screen_background.png");
+   splashScreen = Sprite::create(SPLASH_SCREEN);
 
     // position the splashScreen on the center of the screen
    splashScreen->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
@@ -84,9 +84,7 @@ void SplashScreen::ToMainMenu(Ref *pSender)
 
 void SplashScreen::FinishSplashScreen(float dt)
 {
-	CCLog("finish aha");
 	this->removeChild(splashScreen, true);
-	CCLog("lol remuvd");
 	auto menuAction = MoveTo::create(COVER_APPEARANCE_SPEED,Point(0, 0));
 	auto coverAction = MoveTo::create(COVER_APPEARANCE_SPEED,Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
 	cover1->setVisible(true);
@@ -99,7 +97,6 @@ void SplashScreen::FinishSplashScreen(float dt)
 
 bool SplashScreen::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
 {
-	CCLog("yeap! %d", visibleCover);
 	auto coverAction = MoveTo::create(COVER_APPEARANCE_SPEED,Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
 	if (visibleCover == 1)
 	{
@@ -114,11 +111,11 @@ bool SplashScreen::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
 	if(visibleCover == 3)
 	{
 		auto sceneMainMenu = MainMenuScreen::createScene();
-
 		//transition to main menu
 		Director::getInstance()->replaceScene(TransitionFade::create(SPLASH_SCREEN_TRANSITION_LENGTH, sceneMainMenu));
 	}
 	visibleCover++;
+	return true;
 }
 
 

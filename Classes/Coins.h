@@ -21,6 +21,7 @@ public:
 private:
 	cocos2d::Sprite *coinSprite;
 	cocos2d::PhysicsBody *coinBody;
+	static Coins *create();
 };
 
 #endif // __COINS_H__

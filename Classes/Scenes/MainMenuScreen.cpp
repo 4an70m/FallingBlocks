@@ -45,8 +45,15 @@ bool MainMenuScreen::init()
     menu->setPosition(Point(visibleSize.width / 2, visibleSize.height / 15));
     this->addChild(menu, BUTTONS_ZORDER);
     //animation of waving Boto
-    cocostudio::CCArmatureDataManager::sharedArmatureDataManager()->addArmatureFileInfo(BOTO_MM_PNG,BOTO_MM_PLIST,BOTO_MM_JSON);
-    cocostudio::CCArmature *armature = cocostudio::CCArmature::create("MainMenuBoto");
+    cocostudio::ArmatureDataManager::sharedArmatureDataManager()->addArmatureFileInfo(BOTO_MM_PNG,BOTO_MM_PLIST,BOTO_MM_JSON);
+	cocostudio::ArmatureDataManager::sharedArmatureDataManager()->addArmatureFileInfo(BOTO_MOBING_PNG, BOTO_MOBING_PLIST, BOTO_MOBING_JSON);
+
+
+	cocostudio::Armature *armature2 = cocostudio::Armature::create("MobingBoto");
+	armature2->setPosition(500,500);
+	armature2->getAnimation()->playWithIndex(0);
+	this->addChild(armature2, BOTO_ZORDER);
+    cocostudio::Armature *armature = cocostudio::Armature::create("MainMenuBoto");
 	armature->setPosition(Point(visibleSize.width / 2, visibleSize.height / 16 * 3));
 	armature->getAnimation()->playWithIndex(0);
 	this->addChild(armature, BOTO_ZORDER);
@@ -54,6 +61,10 @@ bool MainMenuScreen::init()
 	auto ground = Sprite::create(GAME_SCENE_GROUND);
 	ground->setPosition(Point(visibleSize.width / 2, visibleSize.height / 15));
 	this->addChild(ground, GROUND_ZORDER);
+
+	newBlock = new Blocks();
+	newBlock->init();
+
 
     return true;
 }
@@ -72,7 +83,7 @@ void MainMenuScreen::generateBox(float dt)
 {
 	//generating block
 	//Blocks *newBlock = new Blocks(Point(0,0), false);
-	Blocks *newBlock = new Blocks(Point(0,0), Blocks::BlockSuperType::NORMAL_BLOCK);
+	newBlock = Blocks::create(Point(0,0), Blocks::BlockSuperType::NORMAL_BLOCK);
 	//positioning block
 	float startWidth = newBlock->getSprite()->getContentSize().width/2;
 	float endWidth =  visibleSize.width - newBlock->getSprite()->getContentSize().width/2;

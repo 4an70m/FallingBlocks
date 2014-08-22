@@ -8,16 +8,15 @@ Scene* GameScreen::createScene()
     auto scene = Scene::createWithPhysics();
     scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
     scene->getPhysicsWorld()->setGravity(Point(0,-1000));
-/*
+
     //edge Node
-    Size visibleSize2 = Director::getInstance()->getVisibleSize();
-    auto body = PhysicsBody::createEdgeBox(visibleSize2, PHYSICSBODY_MATERIAL_DEFAULT,10);
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    auto body = PhysicsBody::createEdgeBox(Size(visibleSize.width, visibleSize.height * 1.5f), PHYSICSBODY_MATERIAL_DEFAULT,10);
 	auto edgeNode = Node::create();
-	edgeNode->setPosition(Point(visibleSize2.width/2,visibleSize2.height/2));
-	edgeNode->setContentSize(Size(visibleSize2.width,visibleSize2.height/2));
+	edgeNode->setPosition(Point(visibleSize.width/2,visibleSize.height/4 * 3));
 	edgeNode->setPhysicsBody(body);
 	scene->addChild(edgeNode);
-*/
+
     // 'layer' is an autorelease object
     auto layer = GameScreen::create();
 
@@ -34,12 +33,12 @@ Scene* GameScreen::createScene()
 bool GameScreen::init()
 {
     points = 0;
-    bonusIsOn = false;
-    numberOfBonuses = 0;
     botoIsAlive = true;
 	bonus = 0;
 	bonusGenSpeed = 1;
 	multiplier = 1;
+	speedOfFalling = 10;
+	numberOfBonuses = 1;
 
     //////////////////////////////
     // 1. super init first
@@ -66,80 +65,56 @@ bool GameScreen::init()
 
 	//covers movements updates
 	this->scheduleUpdate();
-
-	//blocks generation
-
 /*
-	 this->schedule(schedule_selector(GameScreen::generateBlock),
-			//(MIN_BLOCK_GENERATION_TIME + MAX_BLOCK_GENERATION_TIME / (points + 1)) / bonusGenSpeed);
-			1);
-*/
-	//mega lvl generation
-	this->scheduleOnce(schedule_selector(GameScreen::generateBonusLevel), 5);
-
-	//bonus block gen
-/*	this->scheduleOnce(schedule_selector(GameScreen::generateBonusBlock), 5
-	);
+	//blocks generation
+	 this->schedule(schedule_selector(GameScreen::generateBlock), 1);
+	 this->schedule(schedule_selector(GameScreen::generateBonusBlock), 3);
+	 this->schedule(schedule_selector(GameScreen::generateMegaBlock), 5);
 */
     //pause button declaration
-	MenuItemFont::setFontName("fonts/Fat Pixels.ttf");
-	MenuItemFont::setFontSize(visibleSize.height / 50.0f);
-	MenuItemFont *menu_item_1 = MenuItemFont::create("Pause", CC_CALLBACK_1(GameScreen::Pause, this));
+	auto menuLabel = Label::createWithBMFont("fonts/west_england-64.fnt", "Pause",TextHAlignment::LEFT, visibleSize.width/5);
+	menuLabel->setHeight(visibleSize.height/20);
+	menuLabel->setScale(0.7);
+	//menuLabel->setPosition(Point((visibleSize.width / 10 * 7) , (visibleSize.height * 19 / 20)));
+	MenuItemLabel *menu_item_1 = MenuItemLabel::create(menuLabel, CC_CALLBACK_1(GameScreen::Pause, this));
 	menu_item_1->setPosition(Point((visibleSize.width / 5) , (visibleSize.height * 19 / 20)));
 	Menu *menu = Menu::create(menu_item_1, NULL);
 	menu->setPosition(Point(0, 0));
 	this->addChild(menu, BUTTONS_ZORDER);
 
 	//Points label for points output
-	/*
-	pointsLabel = LabelTTF::create("Points: 0", "fonts/Fat Pixels.ttf", visibleSize.height / 50.0f);
-	pointsLabel->setPosition(Point((visibleSize.width / 5 * 4) , (visibleSize.height * 19 / 20)));
+
+	pointsLabel = Label::createWithBMFont("fonts/west_england-64.fnt", "Points: 0",TextHAlignment::LEFT, visibleSize.width/7*2);
+	pointsLabel->setHeight(visibleSize.height/20);
+	pointsLabel->setScale(0.7);
+	pointsLabel->setPosition(Point((visibleSize.width / 7 * 5) , (visibleSize.height * 19 / 20)));
 	this->addChild(pointsLabel, BUTTONS_ZORDER);
-	 */
 
 	//single touch listener
-	//adding event listener
 	auto singleListener = EventListenerTouchOneByOne::create();
 	singleListener->setSwallowTouches(true);
 	singleListener->onTouchBegan = CC_CALLBACK_2(GameScreen::onTouchBegan, this);
+	singleListener->onTouchEnded = CC_CALLBACK_2(GameScreen::onTouchEnded, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(singleListener, this);
 
 	//contact listener
-
 	auto contactListener = EventListenerPhysicsContact::create();
 	contactListener->onContactBegin = CC_CALLBACK_1(GameScreen::onContactBegin, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 
-	//Left button
-	auto sp1 = Sprite::create(LEFT_BUTTON);
-	auto leftButtonPic = cocos2d::extension::Scale9Sprite::create(LEFT_BUTTON);
-	auto leftButtonPicPressed = cocos2d::extension::Scale9Sprite::create(LEFT_BUTTON_PRESSED);
-	cocos2d::extension::ControlButton *leftButton = cocos2d::extension::ControlButton::create(leftButtonPic);
-	leftButton->addTargetWithActionForControlEvents(this, cccontrol_selector(GameScreen::PressLeftButton),cocos2d::extension::Control::EventType::TOUCH_DOWN);
-	leftButton->addTargetWithActionForControlEvents(this, cccontrol_selector(GameScreen::PressLeftButton),cocos2d::extension::Control::EventType::DRAG_ENTER);
-	leftButton->addTargetWithActionForControlEvents(this, cccontrol_selector(GameScreen::ReleaseLeftButton),cocos2d::extension::Control::EventType::TOUCH_UP_INSIDE);
-	leftButton->setBackgroundSpriteForState(leftButtonPicPressed, cocos2d::extension::ControlButton::State::HIGH_LIGHTED);
-	leftButton->setPosition(Point(visibleSize.width / 8, visibleSize.height / 17));
-	leftButton->setPreferredSize(sp1->getContentSize());
-	this->addChild(leftButton, BUTTONS_ZORDER);
+	bonusSprite = Sprite::create(BONUS_SPEED);
+	bonusSprite = Sprite::create(BONUS_SGRAVITY);
+	bonusSprite = Sprite::create(BONUS_FGRAVITY);
+	bonusSprite = Sprite::create(BONUS_SBOTO);
+	bonusSprite = Sprite::create(BONUS_X2);
 
-	//Right button
-	auto sp2 = Sprite::create(RIGHT_BUTTON);
-	auto rightButtonPic = cocos2d::extension::Scale9Sprite::create(RIGHT_BUTTON);
-	auto rightButtonPicPressed = cocos2d::extension::Scale9Sprite::create(RIGHT_BUTTON_PRESSED);
-	cocos2d::extension::ControlButton *rightButton = cocos2d::extension::ControlButton::create(rightButtonPic);
-	rightButton->addTargetWithActionForControlEvents(this, cccontrol_selector(GameScreen::PressRightButton),cocos2d::extension::Control::EventType::TOUCH_DOWN);
-	rightButton->addTargetWithActionForControlEvents(this, cccontrol_selector(GameScreen::PressRightButton),cocos2d::extension::Control::EventType::DRAG_ENTER);
-	rightButton->addTargetWithActionForControlEvents(this, cccontrol_selector(GameScreen::ReleaseRightButton),cocos2d::extension::Control::EventType::TOUCH_UP_INSIDE);
-	rightButton->setBackgroundSpriteForState(rightButtonPicPressed, cocos2d::extension::ControlButton::State::HIGH_LIGHTED);
-	rightButton->setPosition(Point(visibleSize.width / 8 * 7, visibleSize.height / 17));
-	rightButton->setPreferredSize(sp2->getContentSize());
-	this->addChild(rightButton, BUTTONS_ZORDER);
+	newBlock = new Blocks();
+	newBlock->init();
+
 
 	return true;
 }
 //TRANSITIONS
-
 void GameScreen::Pause(Ref *pSender)
 {
 	//implementation of pause scene
@@ -149,54 +124,41 @@ void GameScreen::Pause(Ref *pSender)
 	Director::getInstance()->pushScene(TransitionFade::create(TRANSITION_TIME,scenePause));
 }
 
-
 //GENERATION
-void GameScreen::generateBonusLevel(float dt)
-{
-	CCLog("Bonus started");
-	bonusIsOn = true;
-	bonusBlockHealth = Blocks::RandomIntBetween(MIN_BONUS_BLOCK_HEALTH + numberOfBonuses * 15, MIN_BONUS_BLOCK_HEALTH + numberOfBonuses * 20);
-	Blocks::createBlocks = false;
-	CCLog("Blocks stoped");
-	CCLog("Bonus created");
-	bonusBlock = new Blocks(Point(0,0), Blocks::BlockSuperType::MEGABLOCK);
-
-	float width = visibleSize.width / 2;
-	float height = visibleSize.height + bonusBlock->getSprite()->getContentSize().height / 2;
-	bonusBlock->setPosition(Point(width, height));
-	CCLog("Bonus positioned");
-	auto falling = MoveTo::create(MAX_FALLING_TIME, Point(width, 0));
-	bonusBlock->getSprite()->runAction(falling);
-	bonusBlock->drawBlock(this, BLOCK_ZORDER);
-	CCLog("Bonus finised creation");
-}
-
 void GameScreen::generateBlock(float dt)
 {
-	CCLog("Block gen");
-	if(Blocks::createBlocks == false)
+	if (Blocks::createBlocks == false)
 		return;
-	float startWidth = visibleSize.width / 10;
-	float endWidth =  visibleSize.width / 10 * 9;
-	float height = visibleSize.height / 10 * 9;
-	Vec2 newPoint = Blocks::GeneratePoint(startWidth, endWidth, height);
-	newBlock = new Blocks(newPoint, Blocks::BlockSuperType::NORMAL_BLOCK);
+	newBlock = Blocks::create(
+			Blocks::GeneratePoint(visibleSize.width / 10,
+					visibleSize.width / 10 * 9,
+					visibleSize.height / 10 * 9),
+					Blocks::BlockSuperType::NORMAL_BLOCK);
 	newBlock->drawBlock(this, BLOCK_ZORDER);
 }
 void GameScreen::generateBonusBlock(float dt)
 {
-	if(Blocks::createBlocks == false)
+	if (Blocks::createBlocks == false)
 		return;
-
-	float startWidth = visibleSize.width / 10;
-	float endWidth =  visibleSize.width / 10 * 9;
-	float height = visibleSize.height / 10 * 9;
-	Vec2 newPoint = Blocks::GeneratePoint(startWidth, endWidth, height);
-	newBlock = new Blocks(newPoint, Blocks::BlockSuperType::BONUS_BLOCK);
+	newBlock = Blocks::create(
+			Blocks::GeneratePoint(visibleSize.width / 10,
+					visibleSize.width / 10 * 9,
+					visibleSize.height / 10 * 9),
+					Blocks::BlockSuperType::BONUS_BLOCK);
 	newBlock->drawBlock(this, BLOCK_ZORDER);
 }
-
-
+void GameScreen::generateMegaBlock(float dt)
+{
+	if (!Blocks::createBlocks)
+		return;
+	Blocks::createBlocks = false;
+	bonusBlockHealth = Blocks::RandomIntBetween(MIN_BONUS_BLOCK_HEALTH + numberOfBonuses * 15, MIN_BONUS_BLOCK_HEALTH + numberOfBonuses * 20);
+	megaBlock = Blocks::create(Point(visibleSize.width / 2,
+					visibleSize.height / 10 * 12),
+					Blocks::BlockSuperType::MEGA_BLOCK);
+	megaBlock->drawBlock(this, BLOCK_ZORDER, 20);
+	numberOfBonuses++;
+}
 bool GameScreen::onContactBegin(const PhysicsContact& contact)
 {
 	//Boto collision with brick
@@ -226,68 +188,30 @@ bool GameScreen::onContactBegin(const PhysicsContact& contact)
 		point = Blocks::remove(contact, this);
 		Blocks::emittParticles(this, point);
 	}
-
-	//Block collision with Ground
-	//Block is destroyed
+	//block collision with Ground
+	//block is destroyed
 	if (CollisionManager::CheckCollision(contact, BLOCKS_BITMASK, GROUND_BITMASK))
 	{
-
 		CCLog("Block collision with ground");
 		point = Blocks::remove(contact, this);
 		Blocks::emittParticles(this, point);
 		Coins::generateCoins(this, 1, point, COINS_ZORDER);
 	}
-
 	//collsion with coin
 	//coin is destroyed
 	if (CollisionManager::CheckCollision(contact, COIN_BITMASK, BOTO_BITMASK))
 	{
 		CCLog("Coin collision with boto");
 		Coins::remove(contact, this);
-		/*
 		points += POINTS * multiplier;
 		sprintf(text, "Points: %d", points);
 		pointsLabel->setString(text);
-		pointsLabel->draw();
-		*/
 	}
 	return true;
 
 }
 
-//CONTROLS
-void GameScreen::PressLeftButton(Object *sender, cocos2d::extension::Control::EventType controlEvent)
-{
-	if(botoIsAlive)
-	{
-		botoSprite->stopMoveRight();
-		botoSprite->startMoveLeft();
-	}
-}
-void GameScreen::ReleaseLeftButton(Object *sender, cocos2d::extension::Control::EventType controlEvent)
-{
-	if(botoIsAlive)
-	{
-		botoSprite->stopMoveLeft();
-	}
-}
-void GameScreen::PressRightButton(Object *sender, cocos2d::extension::Control::EventType controlEvent)
-{
-	if(botoIsAlive)
-	{
-		botoSprite->stopMoveLeft();
-		botoSprite->startMoveRight();
-	}
-}
-void GameScreen::ReleaseRightButton(Object *sender, cocos2d::extension::Control::EventType controlEvent)
-{
-	if(botoIsAlive)
-	{
-		botoSprite->stopMoveRight();
-	}
-}
 //BONUS
-
 void GameScreen::bonusHandler()
 {
 	acceptBonus();
@@ -295,28 +219,33 @@ void GameScreen::bonusHandler()
 }
 void GameScreen::acceptBonus()
 {
+	char *bonusName;
 	switch(Blocks::BonusType(bonus))
 	{
 		case Blocks::BonusType::FAST_BOTO:
 		{
 			CCLog("Bonus speed");
+			bonusName = BONUS_SPEED;
 			botoSprite->setSpeed(10.0f);
 			break;
 		}
-		case Blocks::BonusType::FAST_GEN:
+		case Blocks::BonusType::SLOW_GRAV:
 		{
+			bonusName = BONUS_SGRAVITY;
 			CCLog("Bonus gen");
 			bonusGenSpeed = 2;
 			break;
 		}
 		case Blocks::BonusType::FAST_GRAV:
 		{
+			bonusName = BONUS_FGRAVITY;
 			CCLog("Bonus grav");
 			m_world->setGravity(Vec2(0, -500));
 			break;
 		}
 		case Blocks::BonusType::SMALL_BOTO:
 		{
+			bonusName = BONUS_SBOTO;
 			CCLog("Bonus small");
 			botoSprite->getSprite()->setScale(0.5f);
 			botoSprite->createBody(0.5f);
@@ -324,12 +253,26 @@ void GameScreen::acceptBonus()
 		}
 		case Blocks::BonusType::X2_POINTS:
 		{
+			bonusName = BONUS_X2;
 			CCLog("Bonus points");
 			multiplier = 2;
 			break;
 		}
 	}
+	CCLog("%s", bonusName);
+	bonusSprite = Sprite::create(bonusName);
+	bonusSprite->setPosition(visibleSize.width / 2, visibleSize.height / 10);
+	bonusSprite->setOpacity(0);
+	this->addChild(bonusSprite, BUTTONS_ZORDER);
 
+	auto fadeIn = FadeIn::create(0.8f);
+	auto moveTo = MoveTo::create(0.8f, Point(visibleSize.width / 2, visibleSize.height / 10 * 6));
+	auto fadeOut = FadeOut::create(1.2f);
+	auto removeSelf = RemoveSelf::create(true);
+	auto sequence =Sequence::create(fadeIn, fadeOut, removeSelf, NULL);
+
+	bonusSprite->runAction(moveTo);
+	bonusSprite->runAction(sequence);
 }
 void GameScreen::negateBonus(float dt)
 {
@@ -341,7 +284,7 @@ void GameScreen::negateBonus(float dt)
 			botoSprite->setSpeed(5.0f);
 			break;
 		}
-		case Blocks::BonusType::FAST_GEN:
+		case Blocks::BonusType::SLOW_GRAV:
 		{
 			CCLog("Bonus gen off");
 			bonusGenSpeed = 1;
@@ -369,15 +312,10 @@ void GameScreen::negateBonus(float dt)
 	}
 	bonus = 0;
 }
+
 //TOUCHES
 bool GameScreen::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
 {
-
-	//if bonus lvl is not playing then lets just proceede
-	if(bonusIsOn == false)
-	{
-		return true;
-	}
 	current_node = nodeUnderTouch(touch);
 
 	if(current_node != nullptr)
@@ -387,39 +325,86 @@ bool GameScreen::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
 		if(bonusBlockHealth <= 0)
 		{
 			Blocks::createBlocks = true;
-			bonusIsOn = false;
 			Coins::generateCoins(this, numberOfBonuses * 20, current_node->getPosition(), COINS_ZORDER);
+			point = megaBlock->remove(this);
+			for(int i = 0; i < 5; i++)
+			{
+				Blocks::emittParticles(this, Point(
+						point.x + rand() % (int)visibleSize.width/10 - visibleSize.width/20,
+						point.y + rand() % (int)visibleSize.height/10 - visibleSize.height/20));
+			}
 		}
 		Coins::generateCoins(this, 1, touch->getLocation(), COINS_ZORDER);
 	}
+	else
+	{
+		if(touch->getLocation().x<visibleSize.width/2)
+		{
+
+			if(botoIsAlive)
+			{
+				botoSprite->stopMoveRight();
+				botoSprite->startMoveLeft();
+			}
+		}
+		else
+		{
+			if(botoIsAlive)
+			{
+				botoSprite->stopMoveLeft();
+				botoSprite->startMoveRight();
+			}
+		}
+	}
 	return true;
 }
-Node* GameScreen::nodeUnderTouch(cocos2d::Touch *touch)
+
+void GameScreen::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event)
 {
-    Node* node = nullptr;
-    auto location = this->convertTouchToNodeSpace(touch);
-    auto scene = Director::getInstance()->getRunningScene();
-    auto arr = scene->getPhysicsWorld()->getShapes(location);
-    for (auto& obj : arr)
-    {
-        //find it
-        if ( obj->getBody()->getCollisionBitmask() == BIGBLOCK_BITMASK)
-        {
-            node = obj->getBody()->getNode();
-            break;
-        }
-    }
-    return node;
+	if(touch->getLocation().x<visibleSize.width/2)
+	{
+
+		if(botoIsAlive)
+		{
+			botoSprite->stopMoveLeft();
+		}
+	}
+	else
+	{
+		if(botoIsAlive)
+		{
+			botoSprite->stopMoveRight();
+		}
+	}
 }
+Node* GameScreen::nodeUnderTouch(cocos2d::Touch *touch)
+ {
+	if (bonusBlockHealth <= 0)
+		return nullptr;
+     Node* node = nullptr;
+     auto location = this->convertTouchToNodeSpace(touch);
+     auto scene = Director::getInstance()->getRunningScene();
+     auto arr = scene->getPhysicsWorld()->getShapes(location);
+     for (auto& obj : arr)
+     {
+         //find it
+         if ( obj->getBody()->getCollisionBitmask() == MEGABLOCK_BITMASK)
+         {
+             node = obj->getBody()->getNode();
+             break;
+         }
+     }
+     return node;
+ }
 //UPDATE
 void GameScreen::update(float dt)
-
 {
 	if(botoIsAlive)
 	{
 		botoSprite->move(botoSprite->getSpeed());
 	}
 }
+
 void GameScreen::menuCloseCallback(Ref* pSender)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
@@ -432,6 +417,8 @@ void GameScreen::menuCloseCallback(Ref* pSender)
     //destruction
     delete botoSprite;
     botoSprite = nullptr;
+    delete newBlock;
+    newBlock = nullptr;
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);

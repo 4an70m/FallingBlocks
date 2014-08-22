@@ -35,23 +35,15 @@ public:
     void TestDeath(cocos2d::Ref *pSender);
     //TOUCHES
     bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
+    void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event);
     Node* nodeUnderTouch(cocos2d::Touch *touch);
     //GENERATIONS
     void generateBlock(float dt);
-    void generateBonusLevel(float dt);
     void generateBonusBlock(float dt);
+    void generateMegaBlock(float dt);
     //CONTACTS
     bool onContactBegin(const cocos2d::PhysicsContact& contact);
-    //MOVES
-    void MoveLeft(cocos2d::Ref *pSender);
-    void MoveRight(cocos2d::Ref *pSender);
-    void MoveJump(cocos2d::Ref *pSender);
     void update(float dt);
-    //BUTTONS
-    void PressLeftButton(cocos2d::Object *sender, cocos2d::extension::Control::EventType controlEvent);
-    void ReleaseLeftButton(cocos2d::Object *sender, cocos2d::extension::Control::EventType controlEvent);
-    void PressRightButton(cocos2d::Object *sender, cocos2d::extension::Control::EventType controlEvent);
-    void ReleaseRightButton(cocos2d::Object *sender, cocos2d::extension::Control::EventType controlEvent);
     //BONUS
     void bonusHandler();
     void acceptBonus();
@@ -61,30 +53,28 @@ private:
     BotoSprite *botoSprite;
     Ground *ground;
 
-    cocos2d::Sprite *leftButton;
-    cocos2d::Sprite *rightButton;
-
+    cocos2d::Sprite *bonusSprite;
     cocos2d::PhysicsWorld* m_world;
     cocos2d::Size visibleSize;
     cocos2d::Node *current_node;
-    cocos2d::LabelTTF *pointsLabel;
     cocos2d::Point point;
+    cocos2d::Label *pointsLabel;
+    cocos2d::Label *infoLabel;
     char text[256];
     //block
     Blocks *newBlock;
-    Blocks *bonusBlock;
+    Blocks *megaBlock;
+
     unsigned int points;
     bool botoIsAlive;
     //megablock
-    bool bonusIsOn;
     int bonusBlockHealth;
     unsigned int numberOfBonuses;
     //bonuses
     int bonusGenSpeed;
 	int bonus;
-	int time;
 	int multiplier;
-
+	int speedOfFalling;
 };
 
 #endif // __GAME_SCREEN_H__

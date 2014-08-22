@@ -17,13 +17,15 @@ public:
 		O_BLOCK,
 		Z_BLOCK,
 		T_BLOCK,
+		J_BLOCK,
+		S_BLOCK
 	};
 
 	enum class BlockSuperType
 	{
 		NORMAL_BLOCK,
 		BONUS_BLOCK,
-		MEGABLOCK
+		MEGA_BLOCK
 	};
 
 	enum class BonusType
@@ -32,11 +34,13 @@ public:
 		FAST_BOTO 	= 102,
 		X2_POINTS	= 103,
 		FAST_GRAV	= 104,
-		FAST_GEN	= 105
+		SLOW_GRAV	= 105
 	};
 
-	//default constructor
-	Blocks(cocos2d::Point point, BlockSuperType blockSuperType);
+	Blocks();
+	//default create method
+	static Blocks *create(cocos2d::Point point, BlockSuperType blockSuperType);
+	void init();
 
 	//set current block's position
 	void setPosition(cocos2d::Point point);
@@ -47,13 +51,17 @@ public:
 
 	//generate single block
 	void drawBlock(cocos2d::Layer *layer, int zOrder);
+	void drawBlock(cocos2d::Layer *layer, int zOrder, int speedOfFalling);
 
 	char* getBlockType();
+	static char* getBonusType(int bonusType);
 
 	//function which picks a random block
-	BlockType pickABlock();
+	static BlockType pickABlock();
+	static int pickABonus();
 	//removes block
 	static cocos2d::Point remove(const cocos2d::PhysicsContact &contact, cocos2d::Layer *layer);
+	cocos2d::Point remove(cocos2d::Layer *layer);
 	//emitter action
 	static void emittParticles(cocos2d::Layer *layer, cocos2d::Point point);
 	//random generator
@@ -62,9 +70,9 @@ public:
 	//functions generates a random point at a constant height
 	static cocos2d::Vec2 GeneratePoint(float startWidth, float endWidth, float height);
 	static int RandomRotation();
+
 	static bool createBlocks;
 
-	int pickABonus();
 private:
 	//block
 	cocos2d::Sprite *blockSprite;

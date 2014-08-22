@@ -313,17 +313,22 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/BotoSprite.o: \
  jni/../../cocos2d/cocos/./deprecated/CCString.h \
  jni/../../cocos2d/cocos/./deprecated/CCNotificationCenter.h \
  jni/../../cocos2d/cocos/./deprecated/CCDeprecated.h \
- jni/../../Classes/Defenitions.h jni/../../Classes/Blocks.h \
- jni/../../Classes/MyBodyParser.h \
- jni/../../cocos2d/external/Box2D/../json/document.h \
- jni/../../cocos2d/external/Box2D/../json/reader.h \
- jni/../../cocos2d/external/Box2D/../json/rapidjson.h \
- D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/cstring \
- jni/../../cocos2d/external/Box2D/../json/internal/pow10.h \
- jni/../../cocos2d/external/Box2D/../json/internal/stack.h \
- D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/csetjmp \
- jni/../../cocos2d/external/Box2D/../json/internal/strfunc.h \
- jni/../../Classes/Coins.h
+ jni/../../Classes/Defenitions.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmature.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureDefine.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCBone.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDatas.h \
+ jni/../../cocos2d/cocos/./2d/CCTweenFunction.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCTween.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCProcessBase.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDecorativeDisplay.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDisplayFactory.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCColliderDetector.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDisplayManager.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCBatchNode.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureAnimation.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCSpriteFrameCacheHelper.h \
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureDataManager.h
 
 jni/../../Classes/BotoSprite.h:
 
@@ -955,24 +960,32 @@ jni/../../cocos2d/cocos/./deprecated/CCDeprecated.h:
 
 jni/../../Classes/Defenitions.h:
 
-jni/../../Classes/Blocks.h:
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmature.h:
 
-jni/../../Classes/MyBodyParser.h:
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureDefine.h:
 
-jni/../../cocos2d/external/Box2D/../json/document.h:
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCBone.h:
 
-jni/../../cocos2d/external/Box2D/../json/reader.h:
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDatas.h:
 
-jni/../../cocos2d/external/Box2D/../json/rapidjson.h:
+jni/../../cocos2d/cocos/./2d/CCTweenFunction.h:
 
-D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/cstring:
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCTween.h:
 
-jni/../../cocos2d/external/Box2D/../json/internal/pow10.h:
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCProcessBase.h:
 
-jni/../../cocos2d/external/Box2D/../json/internal/stack.h:
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDecorativeDisplay.h:
 
-D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/csetjmp:
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDisplayFactory.h:
 
-jni/../../cocos2d/external/Box2D/../json/internal/strfunc.h:
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCColliderDetector.h:
 
-jni/../../Classes/Coins.h:
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCDisplayManager.h:
+
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCBatchNode.h:
+
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureAnimation.h:
+
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCSpriteFrameCacheHelper.h:
+
+jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureDataManager.h:

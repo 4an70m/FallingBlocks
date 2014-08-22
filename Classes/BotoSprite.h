@@ -3,7 +3,8 @@
 
 #include "cocos2d.h"
 #include "Defenitions.h"
-#include "Blocks.h"
+#include "cocostudio/CCArmature.h"
+#include "cocostudio/CCArmatureDataManager.h"
 class BotoSprite
 {
 public:
@@ -27,8 +28,10 @@ public:
 	void stopMoveRight();
 	float getSpeed();
 	void setSpeed(float speed);
-	void setPosition(Point point);
-	void *createBody(float scale);
+	void setPosition(cocos2d::Point point);
+	void createBody(float scale);
+
+	void switchAnimation();
 
 
 	cocos2d::Point getPosition();
@@ -43,6 +46,7 @@ private:
 	//sprite's physic body
 	cocos2d::PhysicsBody *botoBody;
 	cocos2d::Size visibleSize;
+	cocostudio::CCArmature *armature;
 
 	float jumpHeight;
 	bool moveLeft;

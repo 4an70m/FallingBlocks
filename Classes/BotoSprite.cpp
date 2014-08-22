@@ -23,9 +23,9 @@ BotoSprite::BotoSprite()
 //draw BOTO on a layer
 void BotoSprite::draw(Layer *layer, int zOrder)
 {
-	layer->addChild(botoSprite, 0);
+	layer->addChild(botoSprite, zOrder);
 }
-void *BotoSprite::createBody(float scale)
+void BotoSprite::createBody(float scale)
 {
 	botoBody = PhysicsBody::createBox(
 		Size(
@@ -33,9 +33,6 @@ void *BotoSprite::createBody(float scale)
 				botoSprite->getContentSize().height * scale
 		)
 	);
-	botoBody->setGravityEnable(true);
-	botoBody->setDynamic(true);
-	botoBody->setRotationEnable(false);
 	botoBody->setContactTestBitmask(true);
 	botoBody->setCollisionBitmask(BOTO_BITMASK);
 	botoBody->setMass(0.5f);
@@ -59,6 +56,7 @@ void BotoSprite::remove(const PhysicsContact &contact, Layer *layer)
 //move action
 void BotoSprite::move(float xSpeed)
 {
+
 	//move implemetation
 	if (moveLeft == true)
 	{
