@@ -35,9 +35,7 @@ bool GameScreen::init()
     points = 0;
     botoIsAlive = true;
 	bonus = 0;
-	bonusGenSpeed = 1;
 	multiplier = 1;
-	speedOfFalling = 10;
 	numberOfBonuses = 1;
 
     //////////////////////////////
@@ -65,12 +63,12 @@ bool GameScreen::init()
 
 	//covers movements updates
 	this->scheduleUpdate();
-/*
+
 	//blocks generation
-	 this->schedule(schedule_selector(GameScreen::generateBlock), 1);
-	 this->schedule(schedule_selector(GameScreen::generateBonusBlock), 3);
-	 this->schedule(schedule_selector(GameScreen::generateMegaBlock), 5);
-*/
+	this->schedule(schedule_selector(GameScreen::generateBlock), 1);
+	this->schedule(schedule_selector(GameScreen::generateBonusBlock), 10);
+	this->schedule(schedule_selector(GameScreen::generateMegaBlock), 40);
+
     //pause button declaration
 	auto menuLabel = Label::createWithBMFont("fonts/west_england-64.fnt", "Pause",TextHAlignment::LEFT, visibleSize.width/5);
 	menuLabel->setHeight(visibleSize.height/20);
@@ -102,6 +100,7 @@ bool GameScreen::init()
 	contactListener->onContactBegin = CC_CALLBACK_1(GameScreen::onContactBegin, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 
+	//sprites' textures initialization
 	bonusSprite = Sprite::create(BONUS_SPEED);
 	bonusSprite = Sprite::create(BONUS_SGRAVITY);
 	bonusSprite = Sprite::create(BONUS_FGRAVITY);
@@ -110,7 +109,7 @@ bool GameScreen::init()
 
 	newBlock = new Blocks();
 	newBlock->init();
-
+	coin = new Coins();
 
 	return true;
 }
@@ -152,7 +151,7 @@ void GameScreen::generateMegaBlock(float dt)
 	if (!Blocks::createBlocks)
 		return;
 	Blocks::createBlocks = false;
-	bonusBlockHealth = Blocks::RandomIntBetween(MIN_BONUS_BLOCK_HEALTH + numberOfBonuses * 15, MIN_BONUS_BLOCK_HEALTH + numberOfBonuses * 20);
+	bonusBlockHealth = Blocks::RandomIntBetween(MIN_BONUS_BLOCK_HEALTH + numberOfBonuses * 5, MIN_BONUS_BLOCK_HEALTH + numberOfBonuses * 10);
 	megaBlock = Blocks::create(Point(visibleSize.width / 2,
 					visibleSize.height / 10 * 12),
 					Blocks::BlockSuperType::MEGA_BLOCK);
@@ -224,7 +223,6 @@ void GameScreen::acceptBonus()
 	{
 		case Blocks::BonusType::FAST_BOTO:
 		{
-			CCLog("Bonus speed");
 			bonusName = BONUS_SPEED;
 			botoSprite->setSpeed(10.0f);
 			break;
@@ -232,29 +230,24 @@ void GameScreen::acceptBonus()
 		case Blocks::BonusType::SLOW_GRAV:
 		{
 			bonusName = BONUS_SGRAVITY;
-			CCLog("Bonus gen");
-			bonusGenSpeed = 2;
+			m_world->setGravity(Vec2(0, -200));
 			break;
 		}
 		case Blocks::BonusType::FAST_GRAV:
 		{
 			bonusName = BONUS_FGRAVITY;
-			CCLog("Bonus grav");
-			m_world->setGravity(Vec2(0, -500));
+			m_world->setGravity(Vec2(0, -1500));
 			break;
 		}
 		case Blocks::BonusType::SMALL_BOTO:
 		{
 			bonusName = BONUS_SBOTO;
-			CCLog("Bonus small");
-			botoSprite->getSprite()->setScale(0.5f);
 			botoSprite->createBody(0.5f);
 			break;
 		}
 		case Blocks::BonusType::X2_POINTS:
 		{
 			bonusName = BONUS_X2;
-			CCLog("Bonus points");
 			multiplier = 2;
 			break;
 		}
@@ -280,32 +273,26 @@ void GameScreen::negateBonus(float dt)
 	{
 		case Blocks::BonusType::FAST_BOTO:
 		{
-			CCLog("Bonus speed off");
 			botoSprite->setSpeed(5.0f);
 			break;
 		}
 		case Blocks::BonusType::SLOW_GRAV:
 		{
-			CCLog("Bonus gen off");
-			bonusGenSpeed = 1;
+			m_world->setGravity(Vec2(0, -1000));
 			break;
 		}
 		case Blocks::BonusType::FAST_GRAV:
 		{
-			CCLog("Bonus grav off");
 			m_world->setGravity(Vec2(0, -1000));
 			break;
 		}
 		case Blocks::BonusType::SMALL_BOTO:
 		{
-			CCLog("Bonus small off");
-			botoSprite->getSprite()->setScale(1.0f);
 			botoSprite->createBody(1.0f);
 			break;
 		}
 		case Blocks::BonusType::X2_POINTS:
 		{
-			CCLog("Bonus points off");
 			multiplier = 1;
 			break;
 		}

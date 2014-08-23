@@ -1,8 +1,8 @@
 #ifndef __DEFENITIONS_H__
 #define __DEFENITIONS_H__
 
-#define TO_PLAY_SCENE_TRANSITION_TIME 1.0f
-#define SPLASH_SCREEN_TRANSITION_LENGTH 1.0f
+#define TO_PLAY_SCENE_TRANSITION_TIME 	1.0f
+#define SPLASH_SCREEN_TRANSITION_LENGTH 2.0f
 #define SPLASH_SCREEN_APPEAR_TIME 		1.0f
 #define COVER_APPEARANCE_SPEED 			0.5f
 #define NUMBER_OF_BLOCKS				7
@@ -17,7 +17,7 @@
 
 #define MIN_BONUS_TIME					50
 #define MAX_BONUS_TIME					150
-#define MIN_BONUS_BLOCK_HEALTH			30
+#define MIN_BONUS_BLOCK_HEALTH			15
 #define BONUS_BLOCK_HEALTH_STEP			300
 #define POINTS							500
 
@@ -60,7 +60,7 @@
 //backgrounds
 #define GAME_SCENE_BACKGROUND 	"Backgrounds/game_scene_background.png"
 #define GAME_SCENE_GROUND		"Backgrounds/grounds.png"
-
+#define TITLE					"Backgrounds/title.png"
 //UI
 #define SKIP_BUTTON 			"UI/SKIP_BUTTON.png"
 #define SKIP_BUTTON_PRESSED 	"UI/SKIP_BUTTON_PRESSED.png"

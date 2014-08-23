@@ -37,7 +37,7 @@ void Coins::generateCoins(Layer *layer, int number, Point point, int zOrder)
 		Coins *newCoin = Coins::create();
 		newCoin->coinSprite->setPosition(point);
 		newCoin->coinBody->setVelocity(Point(0, 5));
-		newCoin->coinBody->applyImpulse(Point(Blocks::RandomIntBetween(-2,2), 5));
+		newCoin->coinBody->applyImpulse(Point(Blocks::RandomFloatBetween(-2,2), 5));
 		layer->addChild(newCoin->coinSprite, zOrder);
 	}
 	return;

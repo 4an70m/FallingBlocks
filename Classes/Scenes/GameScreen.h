@@ -52,7 +52,7 @@ public:
 private:
     BotoSprite *botoSprite;
     Ground *ground;
-
+    Coins *coin;
     cocos2d::Sprite *bonusSprite;
     cocos2d::PhysicsWorld* m_world;
     cocos2d::Size visibleSize;
@@ -71,10 +71,8 @@ private:
     int bonusBlockHealth;
     unsigned int numberOfBonuses;
     //bonuses
-    int bonusGenSpeed;
 	int bonus;
 	int multiplier;
-	int speedOfFalling;
 };
 
 #endif // __GAME_SCREEN_H__
