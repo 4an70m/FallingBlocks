@@ -62,6 +62,11 @@ void BotoSprite::remove(const PhysicsContact &contact, Layer *layer)
 		layer->removeChild(contact.getShapeB()->getBody()->getNode());
 	}
 }
+void BotoSprite::remove(Layer *layer)
+{
+	botoBody->removeFromWorld();
+	layer->removeChild(botoSprite);
+}
 //move action
 void BotoSprite::move(float xSpeed)
 {

@@ -3,7 +3,7 @@
 
 #define TO_PLAY_SCENE_TRANSITION_TIME 	1.0f
 #define SPLASH_SCREEN_TRANSITION_LENGTH 2.0f
-#define SPLASH_SCREEN_APPEAR_TIME 		1.0f
+#define SPLASH_SCREEN_APPEAR_TIME 		2.0f
 #define COVER_APPEARANCE_SPEED 			0.5f
 #define NUMBER_OF_BLOCKS				7
 #define NUMBER_OF_BONUS					5
@@ -19,7 +19,7 @@
 #define MAX_BONUS_TIME					150
 #define MIN_BONUS_BLOCK_HEALTH			15
 #define BONUS_BLOCK_HEALTH_STEP			300
-#define POINTS							500
+#define POINTS							10
 
 //intro comicses
 #define INTRO_PAGE_1 			"SplashIntro/COVER1.png"
@@ -40,7 +40,10 @@
 #define BRICK_Z 				"Sprites/Bricks/BRICK-Z.png"
 #define MEGABLOCK 				"Sprites/Bricks/BRICK-BIG.png"
 #define BONUS_BLOCKS 			"Sprites/Box.png"
-//ToDO: add bonus blocks
+
+#define TAP_PATH				"UI/Tap.png"
+#define PAUSE_BUTTON			"UI/PAUSE_BUTTON.png"
+#define PAUSE_BUTTON_PRESSED	"UI/PAUSE_BUTTON_PRESSED.png"
 
 //bonus
 #define BONUS_FGRAVITY 			"Sprites/Bonus/bonus_gravity.png"
@@ -61,6 +64,17 @@
 #define GAME_SCENE_BACKGROUND 	"Backgrounds/game_scene_background.png"
 #define GAME_SCENE_GROUND		"Backgrounds/grounds.png"
 #define TITLE					"Backgrounds/title.png"
+//pause
+#define PAUSE_BACKGROUND		"Backgrounds/Pause.png"
+#define GAMEOVER_BACKGROUND		"Backgrounds/GameOver.png"
+#define BACK_BUTTON				"UI/Pause/pause_back.png"
+#define BACK_BUTTON_PRESSED		"UI/Pause/pause_back_pressed.png"
+#define MENU_BUTTON				"UI/Pause/pause_menu.png"
+#define MENU_BUTTON_PRESSED		"UI/Pause/pause_menu_pressed.png"
+#define SOUND_BUTTON			"UI/Pause/pause_music.png"
+#define SOUND_BUTTON_PRESSED	"UI/Pause/pause_music_pressed.png"
+#define RETRY_BUTTON			"UI/Pause/gameover_retry.png"
+#define RETRY_BUTTON_PRESSED	"UI/Pause/gameover_retry_pressed.png"
 //UI
 #define SKIP_BUTTON 			"UI/SKIP_BUTTON.png"
 #define SKIP_BUTTON_PRESSED 	"UI/SKIP_BUTTON_PRESSED.png"
@@ -86,6 +100,7 @@
 #define BUTTONS_ZORDER			5
 #define COINS_ZORDER			4
 #define PARTICLE_ZORDER			6
+#define UI_ZORDER				7
 
 //Opacities
 #define OPACITY_225				225
@@ -96,5 +111,15 @@
 #define SCALE_07				0.7f
 #define SCALE_05				0.5f
 #define SCALE_03				0.3f
+
+//music
+#define BACKGROUND_MUSIC		"Music/background_music.mp3"
+#define COIN_PICKUP				"Music/Effects/coin_pickup.wav"
+#define MEGABLOCK_HIT			"Music/Effects/megablock_hit.wav"
+#define MEGABLOCK_HIT2			"Music/Effects/megablock_hit2.wav"
+#define MEGABLOCK_HIT3			"Music/Effects/megablock_hit3.wav"
+#define MEGABLOCK_DESTROYED		"Music/Effects/megablock_destroyed.wav"
+#define BLOCK_BREAK				"Music/Effects/block_destroyed.wav"
+#define BONUS_PICKUP			"Music/Effects/bonus_pickup.wav"
 
 #endif // __DEFENITIONS_H__

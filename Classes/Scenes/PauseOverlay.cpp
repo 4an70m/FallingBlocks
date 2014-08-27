@@ -32,13 +32,18 @@ bool PauseOverlay::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     // add "SplashScreen" splash screen"
-    auto sprite = Sprite::create("Backgrounds/pause_screen_background.png");
+    auto sprite = Sprite::create(GAME_SCENE_BACKGROUND);
 
     // position the sprite on the center of the screen
     sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
 
+    auto label = Label::createWithBMFont("fonts/west_england-64.fnt", "Pause",TextHAlignment::LEFT, visibleSize.width/ 5);
+    label->setHeight(visibleSize.height/10);
+    label->setPosition(Point((visibleSize.width / 2) , (visibleSize.height / 4 * 3)));
+	this->addChild(label, BUTTONS_ZORDER);
+
     // add the sprite as a child to this layer
-    this->addChild(sprite, 0);
+    this->addChild(sprite, BACKGROUND_ZORDER);
 
     return true;
 }

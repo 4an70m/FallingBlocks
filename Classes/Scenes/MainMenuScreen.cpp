@@ -32,8 +32,17 @@ bool MainMenuScreen::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+    CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic(BACKGROUND_MUSIC);
+    CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(COIN_PICKUP);
+    CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(MEGABLOCK_HIT);
+    CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(MEGABLOCK_HIT2);
+    CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(MEGABLOCK_HIT3);
+    CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(MEGABLOCK_DESTROYED);
+    CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(BLOCK_BREAK);
+    CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(BONUS_PICKUP);
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(BACKGROUND_MUSIC, true);
     // add "MainMenuScreen" splash screen"
-    auto background = Sprite::create("Backgrounds/main_menu_background.png");
+    auto background = Sprite::create(GAME_SCENE_BACKGROUND);
     background->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
     this->addChild(background, BACKGROUND_ZORDER);
     //add background falling blocks

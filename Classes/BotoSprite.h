@@ -46,6 +46,7 @@ public:
 	cocos2d::PhysicsBody *getBody();
 
 	static void remove(const cocos2d::PhysicsContact &contact, cocos2d::Layer *layer);
+	void remove(cocos2d::Layer *layer);
 
 private:
 	//sprtie

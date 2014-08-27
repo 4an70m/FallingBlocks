@@ -118,6 +118,7 @@ Blocks *Blocks::create(cocos2d::Point point, BlockSuperType blockSuperType)
 //draw a box to layer
 void Blocks::drawBlock(cocos2d::Layer *layer, int zOrder, int speedOfFalling)
 {
+	blockBody->setGravityEnable(false);
 	layer->addChild(this->getSprite(), zOrder);
 	auto move = MoveTo::create(speedOfFalling, Point(this->getSprite()->getPositionX(), -this->getSprite()->getContentSize().height / 2));
 	auto remove = RemoveSelf::create(true);

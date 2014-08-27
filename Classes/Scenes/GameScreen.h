@@ -11,6 +11,7 @@
 #include "Blocks.h"
 #include "Ground.h"
 #include "Coins.h"
+#include "SimpleAudioEngine.h"
 #include "extensions/cocos-ext.h"
 #include "editor-support/cocostudio/cocostudio.h"
 
@@ -49,10 +50,24 @@ public:
     void acceptBonus();
     void negateBonus(float dt);
 
+    //HELPER FUNCTIONS
+    void megablockHelper();
+    void tutorial();
+    void startGeneration(float dt);
+    //pause button functions
+    void back(cocos2d::Ref *pSender);
+    void toggleSound(cocos2d::Ref *pSender);
+    void toMainMenu(cocos2d::Ref *pSender);
+    void gameOverHandler();
+    void retry(cocos2d::Ref *pSender);
+
 private:
     BotoSprite *botoSprite;
     Ground *ground;
     Coins *coin;
+    cocos2d::Sprite *tap1;
+    cocos2d::Sprite *tap2;
+    cocos2d::Sprite *tap3;
     cocos2d::Sprite *bonusSprite;
     cocos2d::PhysicsWorld* m_world;
     cocos2d::Size visibleSize;
@@ -64,6 +79,9 @@ private:
     //block
     Blocks *newBlock;
     Blocks *megaBlock;
+    //pause
+    cocos2d::Sprite *pause;
+    MenuItemToggle *toggle;
 
     unsigned int points;
     bool botoIsAlive;
@@ -73,6 +91,8 @@ private:
     //bonuses
 	int bonus;
 	int multiplier;
+	bool pressedPause;
+	bool musicIsOn;
 };
 
 #endif // __GAME_SCREEN_H__

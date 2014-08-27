@@ -37,6 +37,7 @@ bool GameScreen::init()
 	bonus = 0;
 	multiplier = 1;
 	numberOfBonuses = 1;
+	pressedPause = false;
 
     //////////////////////////////
     // 1. super init first
@@ -44,7 +45,7 @@ bool GameScreen::init()
     {
         return false;
     }
-    
+
     visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -64,20 +65,10 @@ bool GameScreen::init()
 	//covers movements updates
 	this->scheduleUpdate();
 
-	//blocks generation
-	this->schedule(schedule_selector(GameScreen::generateBlock), 1);
-	this->schedule(schedule_selector(GameScreen::generateBonusBlock), 10);
-	this->schedule(schedule_selector(GameScreen::generateMegaBlock), 40);
-
     //pause button declaration
-	auto menuLabel = Label::createWithBMFont("fonts/west_england-64.fnt", "Pause",TextHAlignment::LEFT, visibleSize.width/5);
-	menuLabel->setHeight(visibleSize.height/20);
-	menuLabel->setScale(0.7);
-	//menuLabel->setPosition(Point((visibleSize.width / 10 * 7) , (visibleSize.height * 19 / 20)));
-	MenuItemLabel *menu_item_1 = MenuItemLabel::create(menuLabel, CC_CALLBACK_1(GameScreen::Pause, this));
-	menu_item_1->setPosition(Point((visibleSize.width / 5) , (visibleSize.height * 19 / 20)));
-	Menu *menu = Menu::create(menu_item_1, NULL);
-	menu->setPosition(Point(0, 0));
+	auto menu_item = MenuItemImage::create(PAUSE_BUTTON,PAUSE_BUTTON_PRESSED, CC_CALLBACK_1(GameScreen::Pause, this));
+	auto menu = Menu::create(menu_item, NULL);
+	menu->setPosition(Point(0 + visibleSize.width / 1920 * 200 / 2, visibleSize.height - visibleSize.height / 1920 * 200 / 2));
 	this->addChild(menu, BUTTONS_ZORDER);
 
 	//Points label for points output
@@ -106,22 +97,142 @@ bool GameScreen::init()
 	bonusSprite = Sprite::create(BONUS_FGRAVITY);
 	bonusSprite = Sprite::create(BONUS_SBOTO);
 	bonusSprite = Sprite::create(BONUS_X2);
+	tap1 = Sprite::create(TAP_PATH);
 
 	newBlock = new Blocks();
 	newBlock->init();
 	coin = new Coins();
-
+	pause = Sprite::create(PAUSE_BACKGROUND);
+	pause = Sprite::create(GAMEOVER_BACKGROUND);
+	musicIsOn = true;
+	tutorial();
 	return true;
 }
-//TRANSITIONS
+
+void GameScreen::tutorial()
+{
+	newBlock = Blocks::create(Point(visibleSize.width/2, visibleSize.height), Blocks::BlockSuperType::NORMAL_BLOCK);
+	newBlock->drawBlock(this, BLOCK_ZORDER, 10);
+
+	Label *lab = Label::createWithBMFont("fonts/west_england-64.fnt", "Avoid!",TextHAlignment::RIGHT, visibleSize.width/7*2);
+	lab->setHeight(visibleSize.height/20);
+	auto small = ScaleTo::create(0.5, 0.3);
+	auto big = ScaleTo::create(0.5, 1);
+	auto seq = Sequence::create(small, big, NULL);
+	auto rep = RepeatForever::create(seq);
+	lab->runAction(rep);
+
+	newBlock->getSprite()->addChild(lab,BLOCK_ZORDER);
+
+	this->scheduleOnce(schedule_selector(GameScreen::startGeneration), 5);
+}
+void GameScreen::startGeneration(float dt)
+{
+	//blocks generation
+	this->schedule(schedule_selector(GameScreen::generateBlock), 1);
+	this->schedule(schedule_selector(GameScreen::generateBonusBlock), 10);
+	this->schedule(schedule_selector(GameScreen::generateMegaBlock), 40);
+}
+
+//PAUSE
 void GameScreen::Pause(Ref *pSender)
 {
-	//implementation of pause scene
-	auto scenePause = PauseOverlay::createScene();
+	if(!pressedPause)
+	{
+		pressedPause = !pressedPause;
+		Director::getInstance()->pause();
 
-	//pushes pause scene to the top of scene stack
-	Director::getInstance()->pushScene(TransitionFade::create(TRANSITION_TIME,scenePause));
+		pause = Sprite::create(PAUSE_BACKGROUND);
+
+		auto itemOn = MenuItemImage::create(SOUND_BUTTON,SOUND_BUTTON);
+		auto itemOff = MenuItemImage::create(SOUND_BUTTON_PRESSED,SOUND_BUTTON_PRESSED);
+		toggle = MenuItemToggle::createWithCallback(CC_CALLBACK_1(GameScreen::toggleSound, this),itemOn, itemOff, NULL);
+
+		if (musicIsOn == false)
+		{
+			toggle->setSelectedIndex(1);
+		}
+
+		auto menu_item_1 = MenuItemImage::create(BACK_BUTTON, BACK_BUTTON_PRESSED, CC_CALLBACK_1(GameScreen::back, this));
+		auto menu_item_3 = MenuItemImage::create(MENU_BUTTON,MENU_BUTTON_PRESSED, CC_CALLBACK_1(GameScreen::toMainMenu, this));
+
+		Menu *menu = Menu::create(menu_item_1,toggle,menu_item_3,  NULL);
+		menu->alignItemsHorizontallyWithPadding(visibleSize.height / 1920 * 40);
+		menu->setPosition(Point(pause->getContentSize().width/ 2, pause->getContentSize().height/ 5 * 2));
+
+		pause->addChild(menu, UI_ZORDER);
+		pause->setPosition(Point(visibleSize.width / 2, visibleSize.height / 2));
+		this->addChild(pause, UI_ZORDER);
+	}
+	else
+	{
+		pressedPause = !pressedPause;
+		Director::getInstance()->resume();
+
+		this->removeChild(pause, true);
+	}
 }
+void GameScreen::back(Ref *pSender)
+{
+	pressedPause = !pressedPause;
+	Director::getInstance()->resume();
+
+	this->removeChild(pause, true);
+}
+void GameScreen::toggleSound(Ref *pSender)
+{
+	if(musicIsOn)
+	{
+		musicIsOn = false;
+		CocosDenshion::SimpleAudioEngine::getInstance()->setEffectsVolume(0.0f);
+		CocosDenshion::SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+	}
+	else
+	{
+		CocosDenshion::SimpleAudioEngine::getInstance()->setEffectsVolume(1.0f);
+		CocosDenshion::SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+		//CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(BACKGROUND_MUSIC, true);
+		musicIsOn = true;
+	}
+}
+void GameScreen::toMainMenu(Ref *pSender)
+{
+	Director::getInstance()->resume();
+	auto mainMenuScene = MainMenuScreen::createScene();
+	Director::getInstance()->replaceScene(TransitionFade::create(0,mainMenuScene));
+}
+void GameScreen::gameOverHandler()
+{
+	this->pauseSchedulerAndActions();
+	pause = Sprite::create(GAMEOVER_BACKGROUND);
+
+	auto itemOn = MenuItemImage::create(SOUND_BUTTON,SOUND_BUTTON);
+	auto itemOff = MenuItemImage::create(SOUND_BUTTON_PRESSED,SOUND_BUTTON_PRESSED);
+	toggle = MenuItemToggle::createWithCallback(CC_CALLBACK_1(GameScreen::toggleSound, this),itemOn, itemOff, NULL);
+
+	if (musicIsOn == false)
+	{
+		toggle->setSelectedIndex(1);
+	}
+
+	auto menu_item_1 = MenuItemImage::create(RETRY_BUTTON, RETRY_BUTTON_PRESSED, CC_CALLBACK_1(GameScreen::retry, this));
+	auto menu_item_3 = MenuItemImage::create(MENU_BUTTON,MENU_BUTTON_PRESSED, CC_CALLBACK_1(GameScreen::toMainMenu, this));
+
+	Menu *menu = Menu::create(menu_item_1,toggle,menu_item_3,  NULL);
+	menu->alignItemsHorizontallyWithPadding(visibleSize.height / 1920 * 40);
+	menu->setPosition(Point(pause->getContentSize().width/ 2, pause->getContentSize().height/ 5 * 2));
+
+	pause->addChild(menu, UI_ZORDER);
+	pause->setPosition(Point(visibleSize.width / 2, visibleSize.height / 2));
+	this->addChild(pause, UI_ZORDER);
+}
+void GameScreen::retry(cocos2d::Ref *pSender)
+{
+	auto scenePlay = GameScreen::createScene();
+	Director::getInstance()->replaceScene(scenePlay);
+}
+
+
 
 //GENERATION
 void GameScreen::generateBlock(float dt)
@@ -150,6 +261,7 @@ void GameScreen::generateMegaBlock(float dt)
 {
 	if (!Blocks::createBlocks)
 		return;
+	megablockHelper();
 	Blocks::createBlocks = false;
 	bonusBlockHealth = Blocks::RandomIntBetween(MIN_BONUS_BLOCK_HEALTH + numberOfBonuses * 5, MIN_BONUS_BLOCK_HEALTH + numberOfBonuses * 10);
 	megaBlock = Blocks::create(Point(visibleSize.width / 2,
@@ -177,11 +289,14 @@ bool GameScreen::onContactBegin(const PhysicsContact& contact)
 				bonus = contact.getShapeB()->getBody()->getTag();
 			}
 			bonusHandler();
+		    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(BONUS_PICKUP);
 		}
 		else
 		{
 			botoIsAlive = false;
 			BotoSprite::remove(contact, this);
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(MEGABLOCK_DESTROYED);
+			gameOverHandler();
 			//endgame
 		}
 		point = Blocks::remove(contact, this);
@@ -195,6 +310,7 @@ bool GameScreen::onContactBegin(const PhysicsContact& contact)
 		point = Blocks::remove(contact, this);
 		Blocks::emittParticles(this, point);
 		Coins::generateCoins(this, 1, point, COINS_ZORDER);
+	    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(BLOCK_BREAK);
 	}
 	//collsion with coin
 	//coin is destroyed
@@ -205,6 +321,24 @@ bool GameScreen::onContactBegin(const PhysicsContact& contact)
 		points += POINTS * multiplier;
 		sprintf(text, "Points: %d", points);
 		pointsLabel->setString(text);
+
+	    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(COIN_PICKUP);
+	}
+	//collision with megablock
+	if (CollisionManager::CheckCollision(contact, MEGABLOCK_BITMASK, BOTO_BITMASK) ||
+			CollisionManager::CheckCollision(contact, MEGABLOCK_BITMASK, GROUND_BITMASK))
+	{
+		CCLog("MEGABLOCK PREVOZMOGAET!!");
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(MEGABLOCK_DESTROYED);
+		botoSprite->remove(this);
+		point = megaBlock->remove(this);
+		for(int i = 0; i < 5; i++)
+		{
+			Blocks::emittParticles(this, Point(
+					point.x + rand() % (int)visibleSize.width/10 - visibleSize.width/20,
+					point.y + rand() % (int)visibleSize.height/10 - visibleSize.height/20));
+		}
+		gameOverHandler();
 	}
 	return true;
 
@@ -307,12 +441,20 @@ bool GameScreen::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
 
 	if(current_node != nullptr)
 	{
+		int randomSound = rand() % 3;
+		switch(randomSound)
+		{
+			case 0: {CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(MEGABLOCK_HIT); break;}
+			case 1: {CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(MEGABLOCK_HIT2); break;}
+			case 2: {CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(MEGABLOCK_HIT3); break;}
+		}
 		bonusBlockHealth--;
 		//if block was destoyed, lets just return normal blocks generation
 		if(bonusBlockHealth <= 0)
 		{
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(MEGABLOCK_DESTROYED);
 			Blocks::createBlocks = true;
-			Coins::generateCoins(this, numberOfBonuses * 20, current_node->getPosition(), COINS_ZORDER);
+			Coins::generateCoins(this, numberOfBonuses * 10, current_node->getPosition(), COINS_ZORDER);
 			point = megaBlock->remove(this);
 			for(int i = 0; i < 5; i++)
 			{
@@ -325,27 +467,81 @@ bool GameScreen::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
 	}
 	else
 	{
-		if(touch->getLocation().x<visibleSize.width/2)
+		if(botoIsAlive)
 		{
-
-			if(botoIsAlive)
+			if(touch->getLocation().x<visibleSize.width/2)
 			{
 				botoSprite->stopMoveRight();
 				botoSprite->startMoveLeft();
+				if(botoSprite->getPosition().x < botoSprite->getSprite()->getContentSize().width)
+				{
+					CCLog("too left");
+					botoSprite->setPosition(Point(botoSprite->getSprite()->getContentSize().width,botoSprite->getPosition().y));
+				}
 			}
-		}
-		else
-		{
-			if(botoIsAlive)
+			else
 			{
 				botoSprite->stopMoveLeft();
 				botoSprite->startMoveRight();
+				if(botoSprite->getPosition().x > visibleSize.width - botoSprite->getSprite()->getContentSize().width)
+				{
+					CCLog("too right");
+					botoSprite->setPosition(Point(visibleSize.width - botoSprite->getSprite()->getContentSize().width ,botoSprite->getPosition().y));
+				}
 			}
 		}
 	}
 	return true;
 }
+void GameScreen::megablockHelper()
+{
+	tap1 = Sprite::create(TAP_PATH);
+	tap1->setScale(visibleSize.height / 1920);
+	tap1->setPosition(Point((visibleSize.width / 8 * 2) , (visibleSize.height / 8 * 3)));
+	tap1->setOpacity(0);
+	this->addChild(tap1, BOTO_ZORDER);
 
+	tap2 = Sprite::create(TAP_PATH);
+	tap2->setScale(visibleSize.height / 1920);
+	tap2->setPosition(Point((visibleSize.width / 8 * 4) , (visibleSize.height / 8 * 3)));
+	tap2->setOpacity(0);
+	this->addChild(tap2, BOTO_ZORDER);
+
+	tap3 = Sprite::create(TAP_PATH);
+	tap3->setScale(visibleSize.height / 1920);
+	tap3->setPosition(Point((visibleSize.width / 8 * 6) , (visibleSize.height / 8 * 3)));
+	tap3->setOpacity(0);
+	this->addChild(tap3, BOTO_ZORDER);
+
+	FadeIn *fade1 = FadeIn::create(0.2);
+	ScaleTo *scDN1 = ScaleTo::create(0.5,0.3);
+	ScaleTo *scUP1 = ScaleTo::create(0.5,visibleSize.height / 1920);
+	FadeOut *fadeOut1 = FadeOut::create(0.2);
+	RemoveSelf *rs1 = RemoveSelf::create();
+	auto seq1 = Sequence::create(fade1,scDN1,scUP1,scDN1, scUP1, fadeOut1, rs1, NULL);
+
+	FadeIn *fade2 = FadeIn::create(0.2);
+	ScaleTo *scDN2 = ScaleTo::create(0.5,0.3);
+	ScaleTo *scUP2 = ScaleTo::create(0.5,visibleSize.height / 1920);
+	FadeOut *fadeOut2 = FadeOut::create(0.2);
+	RemoveSelf *rs2 = RemoveSelf::create();
+	auto seq2 = Sequence::create(fade2,scDN2,scUP2,scDN2, scUP2, fadeOut2, rs2, NULL);
+
+	FadeIn *fade3 = FadeIn::create(0.2);
+	ScaleTo *scDN3 = ScaleTo::create(0.5,0.3);
+	ScaleTo *scUP3 = ScaleTo::create(0.5,visibleSize.height / 1920);
+	FadeOut *fadeOut3 = FadeOut::create(0.2);
+	RemoveSelf *rs3 = RemoveSelf::create();
+	auto seq3 = Sequence::create(fade3,scDN3,scUP3,scDN3, scUP3, fadeOut3, rs3, NULL);
+
+
+	tap1->runAction(seq1);
+	tap2->runAction(seq2);
+	tap3->runAction(seq3);
+
+
+
+}
 void GameScreen::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event)
 {
 	if(touch->getLocation().x<visibleSize.width/2)

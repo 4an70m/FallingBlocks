@@ -343,6 +343,7 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/Scenes/MainMenuScreen.o: 
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCSpriteFrameCacheHelper.h \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureDataManager.h \
  jni/../../Classes/Ground.h jni/../../Classes/Coins.h \
+ jni/../../cocos2d/cocos/audio/android/../include/SimpleAudioEngine.h \
  jni/../../cocos2d/extensions/../extensions/cocos-ext.h \
  jni/../../cocos2d/extensions/../extensions/ExtensionMacros.h \
  jni/../../cocos2d/extensions/../extensions/GUI/CCControlExtension/CCControlExtensions.h \
@@ -1103,6 +1104,8 @@ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureDataMa
 jni/../../Classes/Ground.h:
 
 jni/../../Classes/Coins.h:
+
+jni/../../cocos2d/cocos/audio/android/../include/SimpleAudioEngine.h:
 
 jni/../../cocos2d/extensions/../extensions/cocos-ext.h:
 
