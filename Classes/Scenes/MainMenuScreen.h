@@ -3,7 +3,8 @@
 
 #include "cocos2d.h"
 #include "Defenitions.h"
-#include "Blocks.h"
+#include "Sprites/Blocks.h"
+#include "GameScreen.h"
 
 class MainMenuScreen : public cocos2d::Layer
 {

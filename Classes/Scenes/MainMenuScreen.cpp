@@ -1,6 +1,4 @@
 #include "MainMenuScreen.h"
-#include "GameScreen.h"
-#include "HighscoresScreen.h"
 
 USING_NS_CC;
 
@@ -28,7 +26,7 @@ bool MainMenuScreen::init()
     {
         return false;
     }
-    
+
     visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -56,7 +54,7 @@ bool MainMenuScreen::init()
     //animation of waving Boto
     cocostudio::ArmatureDataManager::sharedArmatureDataManager()->addArmatureFileInfo(BOTO_MM_PNG,BOTO_MM_PLIST,BOTO_MM_JSON);
     cocostudio::Armature *armature = cocostudio::Armature::create("MainMenuBoto");
-	armature->setPosition(Point(visibleSize.width / 2, visibleSize.height / 16 * 3));
+	armature->setPosition(Point(visibleSize.width / 2, visibleSize.height / 15 * 3));
 	armature->getAnimation()->playWithIndex(0);
 	this->addChild(armature, BOTO_ZORDER);
 	//add ground
@@ -69,7 +67,6 @@ bool MainMenuScreen::init()
 	this->addChild(title, PARTICLE_ZORDER);
 	newBlock = new Blocks();
 	newBlock->init();
-
 
     return true;
 }

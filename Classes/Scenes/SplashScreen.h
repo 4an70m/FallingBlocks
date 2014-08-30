@@ -3,6 +3,8 @@
 
 #include "cocos2d.h"
 #include "Defenitions.h"
+#include "MainMenuScreen.h"
+#include "AdmobHelper.h"
 
 class SplashScreen : public cocos2d::Layer
 {

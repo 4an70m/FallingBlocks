@@ -16,13 +16,13 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 				   ../../Classes/Scenes/MainMenuScreen.cpp \
 				   ../../Classes/Scenes/GameScreen.cpp \
 				   ../../Classes/Scenes/HighscoresScreen.cpp \
-				   ../../Classes/BotoSprite.cpp \
+				   ../../Classes/Sprites/BotoSprite.cpp \
 				   ../../Classes/CollisionManager.cpp \
-				   ../../Classes/Scenes/PauseOverlay.cpp \
 				   ../../Classes/MyBodyParser.cpp \
-				   ../../Classes/Coins.cpp \
-				   ../../Classes/Ground.cpp \
-				   ../../Classes/Blocks.cpp
+				   ../../Classes/Sprites/Coins.cpp \
+				   ../../Classes/Sprites/Ground.cpp \
+				   ../../Classes/Sprites/Blocks.cpp	\
+				   ../../Classes/AdmobHelper.cpp
 				   
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes

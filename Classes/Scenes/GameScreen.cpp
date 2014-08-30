@@ -38,6 +38,7 @@ bool GameScreen::init()
 	multiplier = 1;
 	numberOfBonuses = 1;
 	pressedPause = false;
+	scale = 1.0f;
 
     //////////////////////////////
     // 1. super init first
@@ -232,8 +233,6 @@ void GameScreen::retry(cocos2d::Ref *pSender)
 	Director::getInstance()->replaceScene(scenePlay);
 }
 
-
-
 //GENERATION
 void GameScreen::generateBlock(float dt)
 {
@@ -377,6 +376,7 @@ void GameScreen::acceptBonus()
 		{
 			bonusName = BONUS_SBOTO;
 			botoSprite->createBody(0.5f);
+			scale = 0.5f;
 			break;
 		}
 		case Blocks::BonusType::X2_POINTS:
@@ -423,6 +423,7 @@ void GameScreen::negateBonus(float dt)
 		case Blocks::BonusType::SMALL_BOTO:
 		{
 			botoSprite->createBody(1.0f);
+			scale = 1.0f;
 			break;
 		}
 		case Blocks::BonusType::X2_POINTS:
@@ -473,21 +474,11 @@ bool GameScreen::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
 			{
 				botoSprite->stopMoveRight();
 				botoSprite->startMoveLeft();
-				if(botoSprite->getPosition().x < botoSprite->getSprite()->getContentSize().width)
-				{
-					CCLog("too left");
-					botoSprite->setPosition(Point(botoSprite->getSprite()->getContentSize().width,botoSprite->getPosition().y));
-				}
 			}
 			else
 			{
 				botoSprite->stopMoveLeft();
 				botoSprite->startMoveRight();
-				if(botoSprite->getPosition().x > visibleSize.width - botoSprite->getSprite()->getContentSize().width)
-				{
-					CCLog("too right");
-					botoSprite->setPosition(Point(visibleSize.width - botoSprite->getSprite()->getContentSize().width ,botoSprite->getPosition().y));
-				}
 			}
 		}
 	}
@@ -584,6 +575,16 @@ void GameScreen::update(float dt)
 {
 	if(botoIsAlive)
 	{
+		if(botoSprite->getPosition().x > visibleSize.width - botoSprite->getSprite()->getContentSize().width / 2 * scale)
+		{
+			CCLog("too right");
+			botoSprite->setPosition(Point(visibleSize.width - botoSprite->getSprite()->getContentSize().width / 2 * scale, botoSprite->getPosition().y));
+		}
+		if(botoSprite->getPosition().x < botoSprite->getSprite()->getContentSize().width / 2 * scale)
+		{
+			CCLog("too left");
+			botoSprite->setPosition(Point(botoSprite->getSprite()->getContentSize().width / 2 * scale, botoSprite->getPosition().y));
+		}
 		botoSprite->move(botoSprite->getSpeed());
 	}
 }

@@ -1,5 +1,4 @@
 #include "SplashScreen.h"
-#include "MainMenuScreen.h"
 
 USING_NS_CC;
 
@@ -27,6 +26,7 @@ bool SplashScreen::init()
     {
         return false;
     }
+
     glClearColor(1.0,1.0,1.0,1.0);
 
     visibleSize = Director::getInstance()->getVisibleSize();

@@ -315,8 +315,8 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/Scenes/GameScreen.o: \
  jni/../../cocos2d/cocos/./deprecated/CCNotificationCenter.h \
  jni/../../cocos2d/cocos/./deprecated/CCDeprecated.h \
  jni/../../Classes/Scenes/MainMenuScreen.h \
- jni/../../Classes/Defenitions.h jni/../../Classes/Blocks.h \
- jni/../../Classes/Defenitions.h jni/../../Classes/MyBodyParser.h \
+ jni/../../Classes/Defenitions.h jni/../../Classes/Sprites/Blocks.h \
+ jni/../../Classes/MyBodyParser.h \
  jni/../../cocos2d/external/Box2D/../json/document.h \
  jni/../../cocos2d/external/Box2D/../json/reader.h \
  jni/../../cocos2d/external/Box2D/../json/rapidjson.h \
@@ -325,8 +325,8 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/Scenes/GameScreen.o: \
  jni/../../cocos2d/external/Box2D/../json/internal/stack.h \
  D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/csetjmp \
  jni/../../cocos2d/external/Box2D/../json/internal/strfunc.h \
- jni/../../Classes/Coins.h jni/../../Classes/Scenes/PauseOverlay.h \
- jni/../../Classes/CollisionManager.h jni/../../Classes/BotoSprite.h \
+ jni/../../Classes/Sprites/Coins.h jni/../../Classes/CollisionManager.h \
+ jni/../../Classes/Sprites/BotoSprite.h \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmature.h \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureDefine.h \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCBone.h \
@@ -342,7 +342,7 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/Scenes/GameScreen.o: \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureAnimation.h \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCSpriteFrameCacheHelper.h \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureDataManager.h \
- jni/../../Classes/Ground.h jni/../../Classes/Coins.h \
+ jni/../../Classes/Sprites/Ground.h jni/../../Classes/Sprites/Coins.h \
  jni/../../cocos2d/cocos/audio/android/../include/SimpleAudioEngine.h \
  jni/../../cocos2d/extensions/../extensions/cocos-ext.h \
  jni/../../cocos2d/extensions/../extensions/ExtensionMacros.h \
@@ -406,7 +406,8 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/Scenes/GameScreen.o: \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CocoStudio.h \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/TriggerObj.h \
  jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CocoStudio.h \
- jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/TriggerMng.h
+ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/TriggerMng.h \
+ jni/../../Classes/AdmobHelper.h
 
 jni/../../Classes/Scenes/GameScreen.h:
 
@@ -1040,9 +1041,7 @@ jni/../../Classes/Scenes/MainMenuScreen.h:
 
 jni/../../Classes/Defenitions.h:
 
-jni/../../Classes/Blocks.h:
-
-jni/../../Classes/Defenitions.h:
+jni/../../Classes/Sprites/Blocks.h:
 
 jni/../../Classes/MyBodyParser.h:
 
@@ -1062,13 +1061,11 @@ D:/Cocos2d-x_Installation_Files/android-ndk-r9d-windows-x86/android-ndk-r9d/sour
 
 jni/../../cocos2d/external/Box2D/../json/internal/strfunc.h:
 
-jni/../../Classes/Coins.h:
-
-jni/../../Classes/Scenes/PauseOverlay.h:
+jni/../../Classes/Sprites/Coins.h:
 
 jni/../../Classes/CollisionManager.h:
 
-jni/../../Classes/BotoSprite.h:
+jni/../../Classes/Sprites/BotoSprite.h:
 
 jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmature.h:
 
@@ -1100,9 +1097,9 @@ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCSpriteFrameCac
 
 jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CCArmatureDataManager.h:
 
-jni/../../Classes/Ground.h:
+jni/../../Classes/Sprites/Ground.h:
 
-jni/../../Classes/Coins.h:
+jni/../../Classes/Sprites/Coins.h:
 
 jni/../../cocos2d/cocos/audio/android/../include/SimpleAudioEngine.h:
 
@@ -1231,3 +1228,5 @@ jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/TriggerObj.h:
 jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/CocoStudio.h:
 
 jni/../../cocos2d/cocos/editor-support/cocostudio/../cocostudio/TriggerMng.h:
+
+jni/../../Classes/AdmobHelper.h:

@@ -4,16 +4,16 @@
 
 #include "cocos2d.h"
 #include "MainMenuScreen.h"
-#include "PauseOverlay.h"
 #include "Defenitions.h"
 #include "CollisionManager.h"
-#include "BotoSprite.h"
-#include "Blocks.h"
-#include "Ground.h"
-#include "Coins.h"
+#include "Sprites/BotoSprite.h"
+#include "Sprites/Blocks.h"
+#include "Sprites/Ground.h"
+#include "Sprites/Coins.h"
 #include "SimpleAudioEngine.h"
 #include "extensions/cocos-ext.h"
 #include "editor-support/cocostudio/cocostudio.h"
+#include "AdmobHelper.h"
 
 class GameScreen : public cocos2d::Layer
 {
@@ -89,6 +89,7 @@ private:
     int bonusBlockHealth;
     unsigned int numberOfBonuses;
     //bonuses
+    float scale;
 	int bonus;
 	int multiplier;
 	bool pressedPause;

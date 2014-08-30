@@ -33,27 +33,27 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
         //check which asset device requires
 
-        if (1920 == screenSize.width || 1920 == screenSize.height)
+        if (1080 == screenSize.width || 1080 == screenSize.height)
         {
         	resDirOrders.push_back("Images/1080");
 
         	glview->setDesignResolutionSize(1080,1920,ResolutionPolicy::NO_BORDER);
         }
-        else if (1280 == screenSize.width || 1280 == screenSize.height)
+        else if ((720 == screenSize.width || 720 == screenSize.height) || (800 == screenSize.width || 800 == screenSize.height))
         	    {
         			resDirOrders.push_back("Images/720");
 
         	    	glview->setDesignResolutionSize(800,1280,ResolutionPolicy::NO_BORDER);
         	    }
-        else if (960 == screenSize.width || 960 == screenSize.height)
+        else if (540 == screenSize.width || 540 == screenSize.height)
         {
-        	resDirOrders.push_back("Images/960");
+        	resDirOrders.push_back("Images/540");
 
         	glview->setDesignResolutionSize(540,960,ResolutionPolicy::NO_BORDER);
         }
-        else if (800 == screenSize.width || 800 == screenSize.height)
+        else if (480 == screenSize.width || 480 == screenSize.height)
                 {
-                	resDirOrders.push_back("Images/800");
+                	resDirOrders.push_back("Images/480");
 
                 	glview->setDesignResolutionSize(480,800,ResolutionPolicy::NO_BORDER);
                 }
